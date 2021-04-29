@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.*;
 import gamebook.utils.MethodCall;
 
-class FakeView {
+class Fake {
 	private final Map<MethodCall, Integer> callsCount = new HashMap<>();
 
-	public FakeView() {
+	public Fake() {
 		super();
 	}
 
@@ -38,6 +38,22 @@ class FakeView {
 	 * */
 	public void verify(String methodName, Object...args) {
 		verifyTimes(1, methodName, args);
+	}
+	
+	/**
+	 * Vérifie que l'appel {@code methodeName(arg1, ..., argN)} n'a pas été reçu.
+	 * Attention, l'ordre des arguments est important.
+	 * 
+	 * @param methodName le nom de la méthode sans paranthèses ni modificateur
+	 * @param args les N arguments transmis au moment de l'appel.
+	 * 
+	 * @throws AssertionError si l'appel a pas été reçu au moins une fois.
+	 * */
+	public void verifyNoCall(String methodName, Object...args) {
+		var call = MethodCall.of(methodName, args);
+		if(callsCount.containsKey(call)) {
+			fail("Expected "+call+" not to have been called. But was called.");
+		}
 	}
 
 	/**

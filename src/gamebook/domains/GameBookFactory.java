@@ -22,6 +22,20 @@ public class GameBookFactory {
 	public static final String LOOK_BEHIND = "Regarder derrière";
 	
 	/** 
+	 * Craie un objet GameBook initialisé.
+	 *
+	 * @return      Objet {@link GameBook} initialisé.
+	 *
+	 * @see         GameBook
+	 * @author      Jérémi Nihart
+	 */
+	public static final GameBook makeGameBook() {
+		List<Paragraph> paragraphs = GameBookFactory.makeParagraphs();
+		GameBookFactory.makeChoices(paragraphs);
+		return new GameBook(GameBookFactory.BOOK_TITLE, paragraphs);
+	}
+	
+	/** 
 	 * Craie la liste des paragraphes de base du livre.
 	 *
 	 * @return      Une liste de paragraphes.
@@ -31,11 +45,11 @@ public class GameBookFactory {
 	 */
 	public static final List<Paragraph> makeParagraphs() {
 		return List.of(
-			new Paragraph(1, GameBookFactory.P1_CONTENT),
-			new Paragraph(2, GameBookFactory.P2_CONTENT),
-			new Paragraph(3, GameBookFactory.P3_CONTENT),
-			new Paragraph(4, GameBookFactory.P4_CONTENT),
-			new Paragraph(5, GameBookFactory.P5_CONTENT)
+			new Paragraph(GameBookFactory.P1_CONTENT),
+			new Paragraph(GameBookFactory.P2_CONTENT),
+			new Paragraph(GameBookFactory.P3_CONTENT),
+			new Paragraph(GameBookFactory.P4_CONTENT),
+			new Paragraph(GameBookFactory.P5_CONTENT)
 		);
 	}
 	

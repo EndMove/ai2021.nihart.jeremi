@@ -9,7 +9,7 @@ import gamebook.supervisers.ReadView;
  * Vérifie si un appel a été reçu.
  * 
  * */
-public class FakeReaderView extends FakeView implements ReadView {
+public class FakeReaderView extends Fake implements ReadView {
 	/**
 	 * {@inheritDoc}
 	 * */

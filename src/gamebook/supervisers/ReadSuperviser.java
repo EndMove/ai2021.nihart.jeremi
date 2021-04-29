@@ -9,7 +9,7 @@ import gamebook.domains.*;
  * Traite les demandes issues d'une {@code ReadView}.
  * � cette fin, elle contr�le d'autres objets parmi lesquels un livre-jeu et une session.
  */
-public final class ReadSuperviser {
+public final class ReadSuperviser implements BookEditedEventHandler {
 	protected static final String RESTART_KEY = "Recommencer l'aventure";
 
 	private ReadView view;
@@ -102,5 +102,12 @@ public final class ReadSuperviser {
 	public void onGoBack() {
 		sess.goBack();
 		refreshView();
+	}
+
+	@Override
+	public void onBookEdited() {
+		sess.reset();
+		refreshView();
+		// TODO Auto-generated method stub
 	}
 }

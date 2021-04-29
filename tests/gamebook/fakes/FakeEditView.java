@@ -9,7 +9,7 @@ import gamebook.supervisers.EditView;
 /**
  * 
  * */
-public class FakeEditView extends FakeView implements EditView {
+public class FakeEditView extends Fake implements EditView {
 
 	@Override
 	public void setTitle(String newTitle) {

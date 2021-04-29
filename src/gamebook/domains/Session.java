@@ -119,8 +119,7 @@ public class Session {
 	 * @author      Jérémi Nihart
 	 */
 	public String getCurrentHead() {
-		return currentParagraph.getHead();
-		
+		return book.getParagraphHead(currentParagraph);
 	}
 	
 	/** 

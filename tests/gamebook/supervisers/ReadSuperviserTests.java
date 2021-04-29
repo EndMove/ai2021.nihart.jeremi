@@ -13,9 +13,7 @@ public class ReadSuperviserTests {
 	
 	@BeforeEach
 	public void setup() {
-		List<Paragraph> p = GameBookFactory.makeParagraphs();
-		GameBookFactory.makeChoices(p);
-		GameBook b = new GameBook(GameBookFactory.BOOK_TITLE, p);
+		GameBook b = GameBookFactory.makeGameBook();
 		Session s = new Session(b);
 
 		superviser = new ReadSuperviser(s, b);

@@ -2,7 +2,7 @@ package gamebook.fakes;
 
 import gamebook.supervisers.CheckView;
 
-public class FakeCheckView extends FakeView implements CheckView {
+public class FakeCheckView extends Fake implements CheckView {
 
 	@Override
 	public void clearResult() {

@@ -33,6 +33,7 @@ import java.util.List;
  * 
  * Pincipales opérations :
  * <ul>
+ * 	<li>indexOf() :     <u>CTT:</u> <b>O(n)</b></li>
  * 	<li>get() :       	<u>CTT:</u> <b>O(1)</b></li>
  *  <li>add() :       	<u>CTT:</u> <b>O(1)</b></li>
  * 	<li>addAll() :      <u>CTT:</u> <b>O(n+m)</b>*</li>
@@ -59,12 +60,15 @@ import java.util.List;
  * Dans le cas où l'on ne prend pas en compte l'agrandissement de la List, CTT: <b>O(n)</b>.</p>
  * <hr>
  *
- * @version     1.0
+ * @version     1.1
  *
  * @see         Paragraph
  * @author      Jérémi Nihart
  */
 public class GameBook {
+
+	public static final String BOOK_TITLE = "Nouveau Livre";
+
 	private String title;
 	private final List<Paragraph> paragraphs = new ArrayList<>();
 	
@@ -81,8 +85,8 @@ public class GameBook {
 	 * @author      Jérémi Nihart
 	 */
 	public GameBook(String title, Collection<Paragraph> paragraphs) {
-		this.title = (title != null) ? title : "No title";
-		if (paragraphs == null || paragraphs.isEmpty()) {addParagraph(new Paragraph(0, null));}
+		setTitle(title);
+		if (paragraphs == null || paragraphs.isEmpty()) {addParagraph(new Paragraph(null));}
 		else {addParagraphs(paragraphs);}
 	}
 	
@@ -100,25 +104,51 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Getter, permettant d'obtenir un paragraphe en fonction de son numéro.<br>
+	 * Getter, permet de récupérer l'en-tête d'un paragraphe.<br>
+	 * <u>CTT : O(n)</u> ou 'n' est le nombre de paragraphes
+	 * contenu dans le livre.
+	 *
+	 * @return      En-tête d'un paragraphe {@link Paragraph}
+	 *
+	 * @since       1.1
+	 *
+	 * @see 		Paragraph#PARAGRAPH_HEAD
+	 * @author      Jérémi Nihart
+	 */
+	public String getParagraphHead(Paragraph paragraph) {
+		return String.format("%s %s", Paragraph.PARAGRAPH_HEAD, paragraphs.indexOf(paragraph)+1);
+	}
+	
+	// docs
+	public List<String> getParagraphsContents() {
+		List<String> heads = new ArrayList<>();
+		for (Paragraph paragraph : paragraphs) {
+			heads.add(paragraph.getContent());
+		}
+		return heads;
+	}
+	
+	/** 
+	 * Getter, permettant d'obtenir un paragraphe en fonction de sa
+	 * position dans la liste de paragraphes de l'objet {@link GameBook}.<br>
 	 * <u>CTT : O(1)</u>
 	 *
 	 * @return      Objet {@link Paragraph} dont le numéro correspond.
-	 * @param		id Le numéro du paragraphe à obtenir.
+	 * @param		id L'ID du paragraphe dans la liste de paragraphes du livre.
 	 *
 	 * @since       1.0
 	 *
 	 * @author      Jérémi Nihart
 	 */
 	public Paragraph getParagraphByID(int id) {
-		return paragraphs.get(id-1);
+		return paragraphs.get(id);
 	}
 	
 	/** 
 	 * Getter, permettant de récupérer le premier paragraphe.<br>
 	 * <u>CTT : O(1)</u>
 	 *
-	 * @return      Objet {@link Paragraph} numéro 1.
+	 * @return      Objet {@link Paragraph} numéro 0 (paragraphe 1).
 	 *
 	 * @since       1.0
 	 *
@@ -126,20 +156,21 @@ public class GameBook {
 	 * @author      Jérémi Nihart
 	 */
 	public Paragraph getFirstParagraph() {
-		return getParagraphByID(1);
+		return getParagraphByID(0);
 	}
 	
 	/** 
 	 * Setter, permettant de définir le titre du livre.
+	 * 
 	 *
-	 * @param		title Titre souhaité.
+	 * @param		title Titre souhaité. <b>Attention le titre ne doit être ni null ni blanc.</b>
 	 *
 	 * @since       1.0
 	 *
 	 * @author      Jérémi Nihart
 	 */
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = (title == null || title.isBlank()) ? BOOK_TITLE : title;
 	}
 	
 	/** 
@@ -158,7 +189,7 @@ public class GameBook {
 	
 	/** 
 	 * Permet d'ajouter une Collection de paragraphes ({@link Paragraph}) au livre.<br>
-	 * <u>CTT : O(n+m)</u> voir Légende classe pour plus d'informations *
+	 * <u>CTT : O(n+m)</u> voir Légende classe pour plus d'informations *.
 	 *
 	 * @param		paragraphs Collection contenant les paragraphes à ajouter.
 	 *

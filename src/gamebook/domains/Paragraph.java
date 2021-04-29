@@ -21,14 +21,16 @@ import java.util.Map;
  * Permet d'attribuer un numéro, du contenu et des
  * possibilitées (choix) à chaque paragraphe du livre.
  *
- * @version     1.0
+ * @version     1.1
  *
  * @author      Jérémi Nihart
  */
 public class Paragraph {
-	private static final String HEAD = "Paragraphe";
-	private final int id;
-	private final String content;
+
+	public static final String PARAGRAPH_HEAD = "Paragraphe";
+	public static final String PARAGRAPH_CONTENT = "Nouveau paragraphe";
+
+	private String content;
 	private final Map<String, Paragraph> choices = new HashMap<>();
 	
 	/** 
@@ -41,36 +43,8 @@ public class Paragraph {
 	 *
 	 * @author      Jérémi Nihart
 	 */
-	public Paragraph(int id, String content) {
-		this.id = (id >= 1) ? id : 0;
-		this.content = (content != null) ? content : "No content";
-	}
-	
-	/** 
-	 * Getter, permettant de récupérer l'id / numéro du paragraphe.
-	 *
-	 * @return      ID du paragraphe.
-	 *
-	 * @since       1.0
-	 *
-	 * @author      Jérémi Nihart
-	 */
-	public int getID() {
-		return id;
-	}
-	
-	/** 
-	 * Getter, permettant de récupérer le titre complet
-	 * du paragraphe (<u>Paragraphe #</u> ou '#' représente le numéro).
-	 *
-	 * @return      Le titre complet du paragraphe.
-	 *
-	 * @since       1.0
-	 *
-	 * @author      Jérémi Nihart
-	 */
-	public String getHead() {
-		return String.format("%s %s", HEAD, id);
+	public Paragraph(String content) {
+		setContent(content);
 	}
 	
 	/** 
@@ -98,8 +72,6 @@ public class Paragraph {
 	 */
 	public Collection<String> getChoices() {
 		return choices.keySet();
-		//return List.of(choices.keySet());
-		//return choices.keySet().toArray(String[]::new);
 	}
 	
 	/** 
@@ -114,6 +86,11 @@ public class Paragraph {
 	 */
 	public Paragraph getParagraphByChoiceKey(String key) {
 		return choices.get(key);
+	}
+	
+	// docs
+	public void setContent(String content) {
+		this.content = (content == null || content.isBlank()) ? PARAGRAPH_CONTENT : content;
 	}
 	
 	/** 
@@ -152,6 +129,6 @@ public class Paragraph {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Paragraph(id=%d, content=%s, choices_count=%d)", id, content, choices.size());
+		return String.format("Paragraph(content=%s, choices_count=%d)", content, choices.size());
 	}
 }
