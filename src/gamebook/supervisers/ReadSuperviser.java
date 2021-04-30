@@ -3,13 +3,16 @@ package gamebook.supervisers;
 import java.util.Collection;
 import java.util.List;
 
-import gamebook.domains.*;
+import gamebook.domains.BookEditedEventHandler;
+import gamebook.domains.GameBook;
+import gamebook.domains.Session;
 
 /**
  * Traite les demandes issues d'une {@code ReadView}.
  * � cette fin, elle contr�le d'autres objets parmi lesquels un livre-jeu et une session.
  */
 public final class ReadSuperviser implements BookEditedEventHandler {
+
 	protected static final String RESTART_KEY = "Recommencer l'aventure";
 
 	private ReadView view;

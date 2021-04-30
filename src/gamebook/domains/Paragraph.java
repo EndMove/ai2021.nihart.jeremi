@@ -11,8 +11,9 @@
  */
 package gamebook.domains;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +29,7 @@ import java.util.Map;
 public class Paragraph {
 
 	public static final String PARAGRAPH_HEAD = "Paragraphe";
-	public static final String PARAGRAPH_CONTENT = "Nouveau paragraphe";
+	private static final String PARAGRAPH_CONTENT = "Nouveau paragraphe";
 
 	private String content;
 	private final Map<String, Paragraph> choices = new HashMap<>();
@@ -61,7 +62,7 @@ public class Paragraph {
 	}
 	
 	/** 
-	 * Getter, permettant de récupérer une Collection de toutes les clés
+	 * Getter, permettant de récupérer une List de toutes les clés
 	 * des choix disponibles pour le paragraphe courant.
 	 *
 	 * @return      Collection des clés des choix.
@@ -70,8 +71,12 @@ public class Paragraph {
 	 *
 	 * @author      Jérémi Nihart
 	 */
-	public Collection<String> getChoices() {
-		return choices.keySet();
+	public List<String> getChoices() {
+		List<String> list = new ArrayList<>();
+		for (String i : choices.keySet()) {
+			list.add(i);
+		}
+		return list;
 	}
 	
 	/** 
@@ -89,11 +94,19 @@ public class Paragraph {
 	}
 	
 	// docs
-	public void setContent(String content) {
-		this.content = (content == null || content.isBlank()) ? PARAGRAPH_CONTENT : content;
+	public boolean setContent(String content) {
+		if (content == null || content.isBlank()) {
+			if (this.content == null) {
+				this.content = PARAGRAPH_CONTENT;
+			}
+			return false;
+		} else {
+			this.content = content;
+			return true;
+		}
 	}
 	
-	/** 
+	/** docs
 	 * Permet d'ajouter un choix au paragraph avec une clé 'key' pointant
 	 * sur un Objet 'paragraph' {@link Paragraph}.
 	 *
@@ -106,7 +119,23 @@ public class Paragraph {
 	 * @author      Jérémi Nihart
 	 */
 	public void addChoice(String key, Paragraph paragraph) {
+		if (key == null || key.isBlank()) {
+			key = "Nouveau choix";
+		}
 		choices.put(key, paragraph);
+	}
+	
+	// docs
+	public void updateChoiceKey(String oldKey, String newKey) {
+		if (choices.containsKey(oldKey) && !choices.containsKey(newKey)) {
+			addChoice(newKey, getParagraphByChoiceKey(oldKey));
+			choices.remove(oldKey);
+		}
+	}
+	
+	//docs
+	public void updateChoiceParagraph(String key, Paragraph paragraph) {
+		choices.replace(key, paragraph);
 	}
 	
 	/** 

@@ -21,7 +21,7 @@ class GameBookTest {
 	public void constructor() {
 		GameBook b = new GameBook(null, null);
 		assertEquals("No title", b.getTitle());
-		assertTrue(b.getFirstParagraph() instanceof Paragraph);
+		assertTrue(b.getParagraphFirst() instanceof Paragraph);
 	}
 
 	@Test
@@ -37,7 +37,7 @@ class GameBookTest {
 
 	@Test
 	public void getFirstParagraph() {
-		assertEquals(p1, b.getFirstParagraph());
+		assertEquals(p1, b.getParagraphFirst());
 	}
 
 	@Test

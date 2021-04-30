@@ -241,13 +241,13 @@ public class Session {
 	 *
 	 * @since       1.0
 	 *
-	 * @see			GameBook#getFirstParagraph()
+	 * @see			GameBook#getParagraphFirst()
 	 * @see			Session#goTo(Paragraph)
 	 * @author      Jérémi Nihart
 	 */
 	public void reset() {
 		history.clear();
-		goTo(book.getFirstParagraph());
+		goTo(book.getParagraphFirst());
 	}
 	
 	/** 

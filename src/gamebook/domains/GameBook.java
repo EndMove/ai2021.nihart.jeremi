@@ -66,9 +66,9 @@ import java.util.List;
  * @author      Jérémi Nihart
  */
 public class GameBook {
-
-	public static final String BOOK_TITLE = "Nouveau Livre";
-
+	
+	private static final String BOOK_TITLE = "Nouveau livre";
+	
 	private String title;
 	private final List<Paragraph> paragraphs = new ArrayList<>();
 	
@@ -116,7 +116,7 @@ public class GameBook {
 	 * @author      Jérémi Nihart
 	 */
 	public String getParagraphHead(Paragraph paragraph) {
-		return String.format("%s %s", Paragraph.PARAGRAPH_HEAD, paragraphs.indexOf(paragraph)+1);
+		return String.format("%s %s", Paragraph.PARAGRAPH_HEAD, getParagraphIdByObject(paragraph)+1);
 	}
 	
 	// docs
@@ -155,22 +155,41 @@ public class GameBook {
 	 * @see			GameBook#getParagraphByID(int)
 	 * @author      Jérémi Nihart
 	 */
-	public Paragraph getFirstParagraph() {
+	public Paragraph getParagraphFirst() {
 		return getParagraphByID(0);
+	}
+	
+	// docs
+	public int getParagraphIdByObject(Paragraph paragraph) {
+		return paragraphs.indexOf(paragraph);
+	}
+	
+	// docs
+	public boolean setParagraphContent(Paragraph paragraph, String content) {
+		return paragraph.setContent(content);
 	}
 	
 	/** 
 	 * Setter, permettant de définir le titre du livre.
-	 * 
 	 *
+	 * @return 		True si la valeur du paramètre 'title' est valide et que le titre courant a été
+	 *              mis à jour avec et False dans le cas où la valeur de titre est invalide.
 	 * @param		title Titre souhaité. <b>Attention le titre ne doit être ni null ni blanc.</b>
 	 *
 	 * @since       1.0
 	 *
 	 * @author      Jérémi Nihart
 	 */
-	public void setTitle(String title) {
-		this.title = (title == null || title.isBlank()) ? BOOK_TITLE : title;
+	public boolean setTitle(String title) {
+		if (title == null || title.isBlank()) {
+			if (this.title == null) {
+				this.title = BOOK_TITLE;
+			}
+			return false;
+		} else {
+			this.title = title;
+			return true;
+		}
 	}
 	
 	/** 
@@ -199,6 +218,11 @@ public class GameBook {
 	 */
 	public void addParagraphs(Collection<Paragraph> paragraphs) {
 		this.paragraphs.addAll(paragraphs);
+	}
+	
+	// docs
+	public void deleteParagraph(int id) {
+		
 	}
 	
 	/**
