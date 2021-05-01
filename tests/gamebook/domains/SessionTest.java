@@ -1,88 +1,73 @@
 package gamebook.domains;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SessionTest {
 	
-	private final Paragraph p1 = new Paragraph(1, "Je suis un paragraphe :D");
-	private final Paragraph p2 = new Paragraph(2, "Je suis un paragraphe :D");
-	private final Paragraph p3 = new Paragraph(3, "Je suis un paragraphe n°2");
-	private final GameBook b = new GameBook(GameBookFactory.BOOK_TITLE, List.of(p1));
-	private final Session s = new Session(b);
-
+	private final GameBook book = GameBookFactory.makeGameBook();
+	private final Session sess = new Session(book);
+	
 	@BeforeEach
 	public void ini() {
-		p2.addChoice("Choix", p1);
-		b.addParagraphs(List.of(p1, p2, p3));
-		s.goTo(p2);
+		
 	}
-	
+
 	@Test
 	public void constructor() {
-		Session test01 = new Session(null);
-		GameBook book = test01.getBook();
-		assertEquals("No title", book.getTitle());
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void getBook() {
-		assertEquals(b, s.getBook());
+	public void testGetBook() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void getCurrentParagraph() {
-		assertEquals(p2, s.getCurrentParagraph());
-	}
-	
-	@Test
-	public void getCurrentHead() {
-		assertEquals(p2.getHead(), s.getCurrentHead());
-	}
-	
-	@Test
-	public void getCurrentContent() {
-		assertEquals(p2.getContent(), s.getCurrentContent());
-	}
-	
-	@Test
-	public void getCurrentHasChoice() {
-		assertTrue(s.isCurrentHasChoice());
-		s.goTo(p3);
-		assertFalse(s.isCurrentHasChoice());
-	}
-	
-	@Test
-	public void getCurrentChoices() {
-		assertEquals(p2.getChoices(), s.getCurrentChoices());
+	public void testGetCurrentParagraph() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void goBack() {
-		s.goBack();
-		assertEquals(p1, s.getCurrentParagraph());
+	public void testGetCurrentHead() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void goTo() {
-		s.goTo(p2);
-		assertEquals(p2, s.getCurrentParagraph());
+	public void testGetCurrentContent() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void goToParagraphByChoiceKey() {
-		s.goToParagraphByChoiceKey("Choix");
-		assertEquals(p1, s.getCurrentParagraph());
+	public void testIsCurrentHasChoice() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void reset() {
-		s.reset();
-		assertEquals(p1, s.getCurrentParagraph());
+	public void testGetCurrentChoices() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGoBack() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGoTo() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGoToParagraphByChoiceKey() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testReset() {
+		fail("Not yet implemented");
 	}
 
 }

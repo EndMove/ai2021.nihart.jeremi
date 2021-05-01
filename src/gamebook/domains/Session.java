@@ -59,6 +59,7 @@ import java.util.LinkedList;
  * @author      Jérémi Nihart
  */
 public class Session {
+	// Variables Objet
 	private final GameBook book;
 	private Paragraph currentParagraph;  // paragraphe courant
 	private final Deque<Paragraph> history = new LinkedList<>();
@@ -241,13 +242,13 @@ public class Session {
 	 *
 	 * @since       1.0
 	 *
-	 * @see			GameBook#getParagraphFirst()
+	 * @see			GameBook#getFirstParagraph()
 	 * @see			Session#goTo(Paragraph)
 	 * @author      Jérémi Nihart
 	 */
 	public void reset() {
 		history.clear();
-		goTo(book.getParagraphFirst());
+		goTo(book.getFirstParagraph());
 	}
 	
 	/** 

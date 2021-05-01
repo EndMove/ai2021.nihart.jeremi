@@ -27,10 +27,12 @@ import java.util.Map;
  * @author      Jérémi Nihart
  */
 public class Paragraph {
-
+	// Constante(s) publique(s)
 	public static final String PARAGRAPH_HEAD = "Paragraphe";
-	private static final String PARAGRAPH_CONTENT = "Nouveau paragraphe";
+	public static final String PARAGRAPH_CONTENT = "Nouveau paragraphe";
+	public static final String PARAGRAPH_CHOICE = "Nouveau choix";
 
+	// Variables Objet
 	private String content;
 	private final Map<String, Paragraph> choices = new HashMap<>();
 	
@@ -119,18 +121,25 @@ public class Paragraph {
 	 * @author      Jérémi Nihart
 	 */
 	public void addChoice(String key, Paragraph paragraph) {
-		if (key == null || key.isBlank()) {
-			key = "Nouveau choix";
-		}
+		key = (key == null || key.isBlank()) ? PARAGRAPH_CHOICE : key;
 		choices.put(key, paragraph);
 	}
 	
 	// docs
-	public void updateChoiceKey(String oldKey, String newKey) {
-		if (choices.containsKey(oldKey) && !choices.containsKey(newKey)) {
+	public void deleteChoice(String key) {
+		choices.remove(key);
+	}
+	
+	// docs
+	public boolean updateChoiceKey(String oldKey, String newKey) {
+		if (newKey == null || newKey.isBlank()) {
+			return false;
+		} else if (choices.containsKey(oldKey) && !choices.containsKey(newKey)) {
 			addChoice(newKey, getParagraphByChoiceKey(oldKey));
 			choices.remove(oldKey);
+			return true;
 		}
+		return false;
 	}
 	
 	//docs
@@ -160,4 +169,12 @@ public class Paragraph {
 	public String toString() {
 		return String.format("Paragraph(content=%s, choices_count=%d)", content, choices.size());
 	}
+	
+	/**
+	 * Redéfinition de la méthode equals(obj)
+	 */
+	@Override
+    public boolean equals(Object obj) {
+        return obj == this || (obj instanceof Paragraph) && obj.toString().equals(toString());
+    }
 }

@@ -21,7 +21,6 @@ public class EditSuperviserTests {
 		view = new FakeEditView();
 		handler = new FakeBookEditedEventHandler();
 		superviser = new EditSuperviser(book, handler);
-		
 		superviser.setView(view);
 	}
 	

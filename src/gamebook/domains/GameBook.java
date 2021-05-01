@@ -66,9 +66,10 @@ import java.util.List;
  * @author      Jérémi Nihart
  */
 public class GameBook {
-	
-	private static final String BOOK_TITLE = "Nouveau livre";
-	
+	// Constante publique
+	public static final String BOOK_TITLE = "Nouveau livre";
+
+	// Variable Objet
 	private String title;
 	private final List<Paragraph> paragraphs = new ArrayList<>();
 	
@@ -155,13 +156,23 @@ public class GameBook {
 	 * @see			GameBook#getParagraphByID(int)
 	 * @author      Jérémi Nihart
 	 */
-	public Paragraph getParagraphFirst() {
+	public Paragraph getFirstParagraph() {
 		return getParagraphByID(0);
+	}
+	
+	// docs
+	public Paragraph getLastParagraph() {
+		return getParagraphByID(paragraphs.size()-1);
 	}
 	
 	// docs
 	public int getParagraphIdByObject(Paragraph paragraph) {
 		return paragraphs.indexOf(paragraph);
+	}
+	
+	// docs
+	public int getParagraphIdByChoiceKey(String key, Paragraph paragraph) {
+		return getParagraphIdByObject(paragraph.getParagraphByChoiceKey(key));
 	}
 	
 	// docs
@@ -221,8 +232,20 @@ public class GameBook {
 	}
 	
 	// docs
-	public void deleteParagraph(int id) {
-		
+	public boolean deleteParagraph(int id) {
+		if (paragraphs.size() > 1) {
+			Paragraph toRemove = paragraphs.get(id);
+			paragraphs.remove(id);
+			for (Paragraph p : paragraphs) {
+				for (String s : p.getChoices()) {
+					if (toRemove.equals(p.getParagraphByChoiceKey(s))) {
+						p.deleteChoice(s);
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	/**

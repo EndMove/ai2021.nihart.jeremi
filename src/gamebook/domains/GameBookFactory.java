@@ -30,9 +30,9 @@ public class GameBookFactory {
 	 * @author      Jérémi Nihart
 	 */
 	public static final GameBook makeGameBook() {
-		List<Paragraph> paragraphs = GameBookFactory.makeParagraphs();
-		GameBookFactory.makeChoices(paragraphs);
-		return new GameBook(GameBookFactory.BOOK_TITLE, paragraphs);
+		List<Paragraph> paragraphs = makeParagraphs();
+		makeChoices(paragraphs);
+		return new GameBook(BOOK_TITLE, paragraphs);
 	}
 	
 	/** 
@@ -45,11 +45,11 @@ public class GameBookFactory {
 	 */
 	public static final List<Paragraph> makeParagraphs() {
 		return List.of(
-			new Paragraph(GameBookFactory.P1_CONTENT),
-			new Paragraph(GameBookFactory.P2_CONTENT),
-			new Paragraph(GameBookFactory.P3_CONTENT),
-			new Paragraph(GameBookFactory.P4_CONTENT),
-			new Paragraph(GameBookFactory.P5_CONTENT)
+			new Paragraph(P1_CONTENT),
+			new Paragraph(P2_CONTENT),
+			new Paragraph(P3_CONTENT),
+			new Paragraph(P4_CONTENT),
+			new Paragraph(P5_CONTENT)
 		);
 	}
 	

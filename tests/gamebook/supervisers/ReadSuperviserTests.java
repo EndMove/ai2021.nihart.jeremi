@@ -15,10 +15,8 @@ public class ReadSuperviserTests {
 	public void setup() {
 		GameBook b = GameBookFactory.makeGameBook();
 		Session s = new Session(b);
-
 		superviser = new ReadSuperviser(s, b);
 		view = new FakeReaderView();
-		
 		superviser.setView(view);
 	}
 	

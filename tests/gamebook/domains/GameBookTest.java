@@ -1,61 +1,107 @@
 package gamebook.domains;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class GameBookTest {
 	
-	private final Paragraph p1 = new Paragraph(1, "Je suis un texte de taille moyenne, les gens m'aiment.");
-	private final Paragraph p2 = new Paragraph(2, "Je suis un texte long et interminable.....");
-	private final Paragraph p3 = new Paragraph(3, "Mon nom est paragraphe 3");
-	private final Paragraph p4 = new Paragraph(4, "ET MOI PH 4 !");
-	private final Paragraph p5 = new Paragraph(5, "Nous sommes tous des paragraphes calmez vous ...");
-	private final Paragraph p6 = new Paragraph(6, "Toi silence !");
+	private final GameBook book = GameBookFactory.makeGameBook();
 	
-	GameBook b = new GameBook("Je suis un livre", List.of(p1, p2, p3, p4));
-
-	@Test
-	public void constructor() {
-		GameBook b = new GameBook(null, null);
-		assertEquals("No title", b.getTitle());
-		assertTrue(b.getParagraphFirst() instanceof Paragraph);
-	}
-
-	@Test
-	public void getTitle() {
-		assertEquals("Je suis un livre", b.getTitle());
+	@BeforeEach
+	public void ini() {
 		
 	}
 
 	@Test
+	public void constructor() {
+		GameBook b = new GameBook(null, null);
+		List<String> pc = b.getParagraphsContents();
+		assertEquals(b.getTitle(), GameBook.BOOK_TITLE);
+		assertTrue(pc.size() == 1);
+		assertTrue(b.getFirstParagraph() instanceof Paragraph);
+	}
+
+	@Test
+	public void getTitle() {
+		assertEquals(book.getTitle(), GameBookFactory.BOOK_TITLE);
+	}
+
+	@Test
+	public void getParagraphHead() {
+		Paragraph p = book.getLastParagraph();
+		assertEquals(book.getParagraphHead(p), Paragraph.PARAGRAPH_HEAD+" 5");
+	}
+
+	@Test
+	public void getParagraphsContents() {
+		Paragraph p = book.getFirstParagraph();
+		List<String> pc = book.getParagraphsContents();
+		assertTrue(pc.size() == 5);
+		assertEquals(pc.get(0), p.getContent());
+	}
+
+	@Test
 	public void getParagraphByID() {
-		assertTrue(p3.equals(b.getParagraphByID(3)));
+		assertEquals(book.getParagraphByID(0), book.getFirstParagraph());
+		assertEquals(book.getParagraphByID(4), book.getLastParagraph());
 	}
 
 	@Test
 	public void getFirstParagraph() {
-		assertEquals(p1, b.getParagraphFirst());
+		assertEquals(book.getFirstParagraph(), book.getParagraphByID(0));
 	}
 
 	@Test
-	public void setTitle() {
-		b.setTitle("Oupss :(");
-		assertEquals("Oupss :(", b.getTitle());
+	public void testGetLastParagraph() {
+		assertEquals(book.getLastParagraph(), book.getParagraphByID(4));
 	}
 
 	@Test
-	public void addParagraphs() {
-		b.addParagraphs(List.of(p5, p6));
-		assertEquals(p5, b.getParagraphByID(5));
-		assertEquals(p6, b.getParagraphByID(6));
+	public void testGetParagraphIdByObject() {
+		Paragraph p = book.getParagraphByID(2);
+		assertTrue(book.getParagraphIdByObject(p) == 2);
 	}
 
 	@Test
-	public void GameBooktoString() {
-		//System.out.println("@Test: BooktoString:\n" + b.toString());
-		assertEquals("Book(title=Je suis un livre, paragraphs_count=4)", b.toString());
+	public void getParagraphIdByChoiceKey() {
+		Paragraph p = book.getParagraphByID(2);
+		List<String> pc = 
 	}
+
+	@Test
+	public void testSetParagraphContent() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetTitle() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddParagraph() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddParagraphs() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testDeleteParagraph() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testToString() {
+		fail("Not yet implemented");
+	}
+
 }
