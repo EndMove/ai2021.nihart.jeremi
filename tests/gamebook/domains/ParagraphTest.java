@@ -51,8 +51,10 @@ class ParagraphTest {
 	@Test
 	public void setContent() {
 		String newContent = "New content of this paragraph";
-		p4.setContent(newContent);
+		assertTrue(p4.setContent(newContent));
 		assertEquals(p4.getContent(), newContent);
+		assertFalse(p4.setContent(" "));
+		assertFalse(p4.setContent(null));
 	}
 
 	@Test
@@ -61,20 +63,30 @@ class ParagraphTest {
 		p1.addChoice(newChoiceKey, p2);
 		List<String> c = p1.getChoices();
 		assertTrue(c.contains(newChoiceKey));
+		p2.addChoice(" ", p2);
+		c = p2.getChoices();
+		assertTrue(c.contains(Paragraph.PARAGRAPH_CHOICE));
+		p3.addChoice(null, p2);
+		c = p3.getChoices();
+		assertTrue(c.contains(Paragraph.PARAGRAPH_CHOICE));
 	}
 
 	@Test
 	public void deleteChoice() {
 		p0.deleteChoice(GameBookFactory.KEEP_READING);
-		assertTrue(p0.getChoices().size() == 2);
+		assertEquals(p0.getChoices().size(), 2);
 	}
 
 	@Test
 	public void updateChoiceKey() {
-		p3.updateChoiceKey(GameBookFactory.FOLLOW, GameBookFactory.WALK);
+		assertTrue(p3.updateChoiceKey(GameBookFactory.FOLLOW, GameBookFactory.WALK));
 		List<String> c = p3.getChoices();
 		assertTrue(c.contains(GameBookFactory.WALK));
 		assertFalse(c.contains(GameBookFactory.FOLLOW));
+		assertFalse(p3.updateChoiceKey(GameBookFactory.FOLLOW, GameBookFactory.WALK));
+		assertFalse(p3.updateChoiceKey(GameBookFactory.WALK, GameBookFactory.WALK));
+		assertFalse(p3.updateChoiceKey(GameBookFactory.WALK, null));
+		assertFalse(p3.updateChoiceKey(GameBookFactory.WALK, " "));
 	}
 
 	@Test
@@ -99,5 +111,6 @@ class ParagraphTest {
 		Paragraph p = new Paragraph(GameBookFactory.P2_CONTENT);
 		assertTrue(p.equals(p1));
 		assertFalse(p0.equals(p2));
+		assertFalse(p.equals("un string"));
 	}
 }

@@ -110,13 +110,13 @@ public class Session {
 	
 	/** 
 	 * Getter, permettant de récupérer le head (titre) du paragraphe courrant.<br>
-	 * (fait appelle au paragraphe en cours de lecture)
+	 * (fait appelle au livre jeu)
 	 *
 	 * @return      Le head (titre) du paragraphe courrant.
 	 *
 	 * @since       1.0
 	 *
-	 * @see			Paragraph#getHead()
+	 * @see			GameBook#getParagraphHead(Paragraph)
 	 * @author      Jérémi Nihart
 	 */
 	public String getCurrentHead() {
