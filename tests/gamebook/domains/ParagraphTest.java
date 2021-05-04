@@ -105,12 +105,4 @@ class ParagraphTest {
 	public void objecttoString() {
 		assertEquals(p2.toString(), "Paragraph(content="+GameBookFactory.P3_CONTENT+", choices_count=3)");
 	}
-
-	@Test
-	public void objectEquals() {
-		Paragraph p = new Paragraph(GameBookFactory.P2_CONTENT);
-		assertTrue(p.equals(p1));
-		assertFalse(p0.equals(p2));
-		assertFalse(p.equals("un string"));
-	}
 }

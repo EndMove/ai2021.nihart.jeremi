@@ -4,17 +4,18 @@
  * Description  : Classe permetant de gérer l'historique des pages du livre
  * 				  qui ont été parcourue, de reset la lecture...
  *
- * Version      : 1.0
+ * Version      : 1.1
  * Since        : 1.0
- * Date         : 21/04/2021
+ * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
+ * Link 		: https://server.endmove.eu/~endmove/AIit2/
  */
 package gamebook.domains;
 
-import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Session
@@ -23,7 +24,7 @@ import java.util.LinkedList;
  * <hr>
  * <h2>L'interface utilisée : Deque</h2>
  * <p>J'utilise une Deque comme interface car elle permet de construire une liste
- * linéaire (une queue), et le parcours des pages d'un livre en est très similaire.</p>
+ * linéaire (une queue), et le parcours des paragraphes d'un livre en est très similaire.</p>
  * 
  * <h2>L'implémentation utilisée : LinkedList</h2>
  * <p>J'utilise une LinkedList comme implémentation car la LinkedList connait sont
@@ -159,18 +160,18 @@ public class Session {
 	
 	/** 
 	 * Getter, permettant de récupérer les choix disponibles pour le
-	 * paragraphe courrant sous forme de collection.<br>
+	 * paragraphe courrant sous forme de List.<br>
 	 * (fait appelle au paragraphe en cours de lecture)
 	 *
 	 *
-	 * @return      Collection des choix disponibles.
+	 * @return      List des choix disponibles.
 	 *
 	 * @since       1.0
 	 *
 	 * @see			Paragraph#getChoices()
 	 * @author      Jérémi Nihart
 	 */
-	public Collection<String> getCurrentChoices() {
+	public List<String> getCurrentChoices() {
 		return currentParagraph.getChoices();
 	}
 	

@@ -42,24 +42,25 @@ public final class EditSuperviser {
 	}
 	
 	// docs
-	public void refreshParagraphAll() {
+	private void refreshParagraphAll() {
 		this.view.setParagraphs(book.getParagraphsContents());
 		this.view.setCurrentParagraphContent(currentParagraph.getContent());
 		this.view.setSelectedParagraph(book.getParagraphIdByObject(currentParagraph));
 	}
 	
 	// docs
-	public void refreshSelectedChoice(String key) {
-		List<String> choices = new ArrayList<String>(currentParagraph.getChoices());
-		int paragraphID;
+	private void refreshSelectedChoice(String key) {
+		List<String> choices = new ArrayList<>(currentParagraph.getChoices()); // TODO
+		String choiceKey;  // La clé du choix qu'il faudrait afficher.
+		int paragraphID;   // L'id du paragraphe associé à ce choix.
 		if (choices.isEmpty()) {
-			key = "";
+			choiceKey = "";
 			paragraphID = -1;
 		} else {
-			key = (key == null) ? choices.get(0) : key;
-			paragraphID = book.getParagraphIdByChoiceKey(key, currentParagraph);
+			choiceKey = (key == null) ? choices.get(0) : key;
+			paragraphID = book.getParagraphIdByChoiceKey(choiceKey, currentParagraph);
 		}
-		this.view.setSelectedChoice(key, paragraphID);
+		this.view.setSelectedChoice(choiceKey, paragraphID);
 	}
 	
 	// docs

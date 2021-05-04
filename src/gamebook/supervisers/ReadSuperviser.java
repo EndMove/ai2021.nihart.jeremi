@@ -1,6 +1,5 @@
 package gamebook.supervisers;
 
-import java.util.Collection;
 import java.util.List;
 
 import gamebook.domains.BookEditedEventHandler;
@@ -48,9 +47,9 @@ public final class ReadSuperviser implements BookEditedEventHandler {
 	 * @see				GameBook#getTitle()
 	 * @author			Jérémi Nihart
 	 */
-	public void refreshView() {
+	private void refreshView() {
 		// Gérer la récupération des choix du paragraphe actuel
-		Collection<String> choices = (sess.isCurrentHasChoice()) ? sess.getCurrentChoices() : List.of(RESTART_KEY);
+		List<String> choices = (sess.isCurrentHasChoice()) ? sess.getCurrentChoices() : List.of(RESTART_KEY);
 		// Gérer la mise à jour de la vue
 		this.view.setTitle(book.getTitle());
 		this.view.setParagraph(sess.getCurrentHead(), sess.getCurrentContent());

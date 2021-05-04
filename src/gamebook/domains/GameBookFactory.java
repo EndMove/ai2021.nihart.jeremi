@@ -21,6 +21,11 @@ public class GameBookFactory {
 	public static final String KEEP_READING = "Continuer à lire";
 	public static final String LOOK_BEHIND = "Regarder derrière";
 	
+	/**
+	 * Constructor for the 100 percent.
+	 */
+	private GameBookFactory() {}
+	
 	/** 
 	 * Craie un objet GameBook initialisé.
 	 *
@@ -65,7 +70,7 @@ public class GameBookFactory {
 	 * @see			Paragraph#addChoice(String, Paragraph)
 	 * @author      Jérémi Nihart
 	 */
-	public static final void setChoices(Paragraph target, String title, Paragraph...paragraphs) {
+	private static final void setChoices(Paragraph target, String title, Paragraph...paragraphs) {
 		for(Paragraph p : paragraphs) {
 			p.addChoice(title, target);
 		}

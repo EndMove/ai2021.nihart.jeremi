@@ -3,11 +3,12 @@
  *
  * Description  : Classe gérant les paragraphe et choix assosiés.
  *
- * Version      : 1.0
+ * Version      : 1.1
  * Since        : 1.0
- * Date         : 21/04/2021
+ * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
+ * Link 		: https://server.endmove.eu/~endmove/AIit2/
  */
 package gamebook.domains;
 
@@ -22,6 +23,27 @@ import java.util.Map;
  * Permet de créer un paragraphe du livre et de lui assigner
  * un contenu par defaut, ainsi que de lui attribuer des choix.
  *
+ * <hr>
+ * 
+ * <h2>L'interface utilisée : Map</h2>
+ * <p>J'utilise une Map comme interface car j'ai besoin d'avoir un dictionaire clé valeur
+ * pour accéder à mes choix. J'utilise le libellé du choix comme clé et un objet Paragraph comme valeur.</p>
+ * 
+ * <h2>L'implémentation utilisée : HashMap</h2>
+ * <p>J'ai implémenté une HashMap car chaque clé doit est unique, et qu'il m'ait inutile de
+ * trier les éléments qu'elle contient.</p>
+ * 
+ * Pincipales opérations :
+ * <ul>
+ * 	<li>keySet() :      <u>CTT:</u> <b>O(1)</b></li>
+ * 	<li>get() :       	<u>CTT:</u> <b>O(1)</b></li>
+ *  <li>put() :       	<u>CTT:</u> <b>O(1)</b></li>
+ * 	<li>remove() :      <u>CTT:</u> <b>O(1)</b></li>
+ *  <li>replace() :     <u>CTT:</u> <b>O(1)</b></li>
+ *  <li>isEmpty() :     <u>CTT:</u> <b>O(1)</b></li>
+ *  <li>containsKey() : <u>CTT:</u> <b>O(1)</b></li>
+ * </ul>
+ * 
  * @version     1.1
  *
  * @author      Jérémi Nihart
@@ -67,24 +89,22 @@ public class Paragraph {
 	
 	/** 
 	 * Getter, permettant de récupérer une List de toutes les clés
-	 * des choix disponibles pour le paragraphe courant.
+	 * des choix disponibles pour le paragraphe.<br>
+	 * <u>CTT : O(1)</u>
 	 *
 	 * @return      List des clés des choix.
 	 *
-	 * @since       1.0
+	 * @since       1.1
 	 *
 	 * @author      Jérémi Nihart
 	 */
 	public List<String> getChoices() {
-		List<String> list = new ArrayList<>();
-		for (String i : choices.keySet()) {
-			list.add(i);
-		}
-		return list;
+		return new ArrayList<>(choices.keySet());
 	}
 	
 	/** 
-	 * Getter, permettant de récupérer l'objet {@link Paragraph} associé à la clé 'key'.
+	 * Getter, permettant de récupérer l'objet {@link Paragraph} associé à la clé 'key'.<br>
+	 * <u>CTT : O(1)</u>
 	 *
 	 * @return      Un Objet {@link Paragraph}.
 	 * @param		key Clé du choix associé à un paragraphe.
@@ -100,9 +120,16 @@ public class Paragraph {
 	/** 
 	 * Setter, permettant de définir le contenu du paragraphe courant.
 	 * 
-	 * <p>Le paramètre 'content' doit être une valeur non null et non vide. Dans le cas contaire
-	 * et si le contenu courrant de l'objet est null celui-ci est défini à {@link Paragraph#PARAGRAPH_CONTENT}
-	 * si il ne l'est pas, il reste inchangé.<p>
+	 * <hr>
+	 * 
+	 * <u>Postconditions:</u> Le paramètre 'content' doit être une valeur non null et non vide.<br>
+	 * <ul>
+	 *  <li>Dans le cas contaire et que le contenu du paragraphe n'a pas été initialisé à la création de
+	 *      l'objet celui-ci est défini à {@link Paragraph#PARAGRAPH_CONTENT}.</li>
+	 *  <li>Si il à déjà été initialisé et que les postconditions ne sont pas respéctées, il reste inchangé.</li>
+	 *  <li>Si les postconditions sont respéctées, il est mis à jour avec la nouvelle valeur.</li>
+	 * </ul>
+	 * <hr>
 	 *
 	 * @return      True: Si le contenu spécifié a été défini comme contenu courrant<br>
 	 * 				      False: Si le contenu spécifié a été refusé.
@@ -127,7 +154,8 @@ public class Paragraph {
 	
 	/**
 	 * Permet d'ajouter un choix au paragraph avec une clé 'key' pointant
-	 * sur un Objet 'paragraph' {@link Paragraph}.
+	 * sur un Objet 'paragraph' {@link Paragraph}.<br>
+	 * <u>CTT : O(1)</u>
 	 *
 	 * @param		key Clé du choix à associer au paragraphe. Si la clé est
 	 *                  null ou vide elle sera définie sur {@link Paragraph#PARAGRAPH_CHOICE}.
@@ -144,7 +172,8 @@ public class Paragraph {
 	}
 	
 	/**
-	 * Permet de supprimer un choix du paragraphe.
+	 * Permet de supprimer un choix du paragraphe.<br>
+	 * <u>CTT : O(1)</u>
 	 *
 	 * @param		key Clé du choix à supprimer du paragraphe courrant.
 	 *
@@ -157,14 +186,46 @@ public class Paragraph {
 	}
 	
 	/**
+	 * Permet de supprimer un choix du paragraphe si il cible un objet
+	 * {@link Paragraph} particulié.<br>
+	 * <u>CTT : O(n)</u> ou 'n' est le nombre de choix du paragraphe.
+	 *
+	 * @param		paragraph Objet {@link Paragraph} pour le quel il
+	 *                        faut supprimer les choix du paragraphe
+	 *                        pointant ver lui.
+	 *
+	 * @since       1.1
+	 *
+	 * @see			Paragraph#getChoices()
+	 * @see 		Paragraph#getParagraphByChoiceKey(String)
+	 * @see 		Paragraph#deleteChoice(String)
+	 * @author      Jérémi Nihart
+	 */
+	public void deleteChoiceByParagraph(Paragraph paragraph) {
+		for (String key : getChoices()) {
+			if (paragraph.equals(getParagraphByChoiceKey(key))) {
+				deleteChoice(key);
+			}
+		}
+	}
+	
+	/**
 	 * Permet de mettre à jour la clé d'un choix du paragraphe.
+	 * 
+	 * <hr>
+	 * 
+	 * <u>Postconditions:</u> La 'newKey' doit être non null, non vide
+	 * et ne dois pas exister dans la Map tandis que oldKey doit exister.
+	 * <hr>
 	 *
 	 * @param		oldKey Valeur actuel de la clé.
 	 * @param       newKey Nouvelle valeur de la clé.
 	 *
 	 * @since       1.0
 	 *
-	 * @see 		Paragraph
+	 * @see 		Paragraph#addChoice(String, Paragraph)
+	 * @see 		Paragraph#getParagraphByChoiceKey(String)
+	 * @see 		Paragraph#deleteChoice(String)
 	 * @author      Jérémi Nihart
 	 */
 	public boolean updateChoiceKey(String oldKey, String newKey) {
@@ -173,14 +234,15 @@ public class Paragraph {
 		}
 		if (choices.containsKey(oldKey) && !choices.containsKey(newKey)) {
 			addChoice(newKey, getParagraphByChoiceKey(oldKey));
-			choices.remove(oldKey);
+			deleteChoice(oldKey);
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * Permet de mettre à jour le paragraph vers lequel pointe un choix.
+	 * Permet de mettre à jour le paragraph vers lequel pointe un choix.<br>
+	 * <u>CTT : O(1)</u>
 	 *
 	 * @param		key Clé du choix dont il faut mettre à jour le paragraphe.
 	 * @param  		paragraph Objet paragraphe {@link Paragraph} a assigné à la clé.
@@ -216,19 +278,4 @@ public class Paragraph {
 	public String toString() {
 		return String.format("Paragraph(content=%s, choices_count=%d)", content, choices.size());
 	}
-	
-	/**
-	 * Redéfinition de la méthode equals(obj)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-        if (obj instanceof Paragraph) {
-        	String objString = obj.toString();
-        	return objString.equals(toString());
-        }
-        return false;
-    }
 }

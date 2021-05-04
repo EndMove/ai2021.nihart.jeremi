@@ -3,11 +3,12 @@
  *
  * Description  : Classe gérant le livre.
  *
- * Version      : 1.0
+ * Version      : 1.1
  * Since        : 1.0
- * Date         : 21/04/2021
+ * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
+ * Link 		: https://server.endmove.eu/~endmove/AIit2/
  */
 
 package gamebook.domains;
@@ -20,8 +21,10 @@ import java.util.List;
  * GameBook
  *
  * Permet d'attribuer un titre au livre ainsi que des paragraphes.
+ * 
  * <hr>
- * Info : <i>L'utilisation d'une liste n'était pas requis mais déjà implémenté en prévision des modifications futurs.</i>
+ * <b>Non modifié mais enrichit.</b>
+ * 
  * <h2>L'interface utilisée : List</h2>
  * <p>J'utilise une List comme interface car elle permet de construire une simple
  * liste de {@link Paragraph} ordonnée en fonction de leurs index (dans un
@@ -29,14 +32,16 @@ import java.util.List;
  * 
  * <h2>L'implémentation utilisée : ArrayList</h2>
  * <p>J'ai implémenté une ArrayList comme moyen de stockage de mes paragaphes
- * pour y avoir accès directement depuis leur index...</p>
+ * pour y avoir accès directement depuis leurs index...</p>
  * 
- * Pincipales opérations :
+ * Pincipales opérations (cas généreux) :
  * <ul>
- * 	<li>indexOf() :     <u>CTT:</u> <b>O(n)</b></li>
+ * 	<li>indexOf() :     <u>CTT:</u> <b>O(n)</b>*</li>
  * 	<li>get() :       	<u>CTT:</u> <b>O(1)</b></li>
  *  <li>add() :       	<u>CTT:</u> <b>O(1)</b></li>
- * 	<li>addAll() :      <u>CTT:</u> <b>O(n+m)</b>*</li>
+ * 	<li>addAll() :      <u>CTT:</u> <b>O(n+m)</b>**</li>
+ *  <li>size() :        <u>CTT:</u> <b>O(1)</b></li>
+ *  <li>remove() :      <u>CTT:</u> <b>O(n)</b>***</li>
  * </ul>
  * 
  * <h2>Complémentaire :</h2>
@@ -46,7 +51,11 @@ import java.util.List;
  * <hr>
  * 
  * <u>Légende :</u>
- * <p>*: En faisant des recherche sur le fonctionnement de cette fonction
+ * <p>*: Dans le meilleur des cas (si un seul paragraphe est présent dans la liste) la CTT de
+ * indexOf est de O(1). Dans un cas plus générale indexOf boucle ses éléments (les éléments de
+ * sa liste) pour vérifier qu'ils correspondent donc la CTT est de O(n) ou 'n' est le nombre
+ * de paragraphe (voir méthode).</p>
+ * <p>**: En faisant des recherche sur le fonctionnement de cette fonction
  * j'ai pu découvrir qu'en Java 11 <code>addAll()</code> a été réécrite, celle-ci fonctionne
  * comme suit:<br>De base l'implémentation de collection utilisé est convertie
  * en tableau, elle itère tout c'est élément(s) donc <b>O(n)</b>
@@ -58,6 +67,9 @@ import java.util.List;
  * <b>O(n)</b> (pour faire une boucle permettant de copier les éléments) la CTT
  * final reste donc inchangé.<br>
  * Dans le cas où l'on ne prend pas en compte l'agrandissement de la List, CTT: <b>O(n)</b>.</p>
+ * <p>***: Dans la pire des cas la CTT de remove est de O(n) ou 'n' est le nombre d'élément
+ * à décaler précédent celui à supprimer. Tandit que dans le meilleur des cas la CTT est de O(1),
+ * si l'élement à supprimer est le dernier de la liste.</p>
  * <hr>
  *
  * @version     1.1
@@ -104,16 +116,17 @@ public class GameBook {
 		return title;
 	}
 	
-	/** 
+	/**
 	 * Getter, permet de récupérer l'en-tête d'un paragraphe.<br>
-	 * <u>CTT : O(n)</u> ou 'n' est le nombre de paragraphes
-	 * contenu dans le livre.
+	 * <u>CTT : O(n)</u> (voir {@link GameBook#getParagraphIdByObject(Paragraph)}).
 	 *
-	 * @return      En-tête d'un paragraphe {@link Paragraph}
+	 * @return      En-tête d'un paragraphe {@link Paragraph}.
+	 *              Exemple: <i>Paragraphe 17</i>
 	 *
 	 * @since       1.1
 	 *
 	 * @see 		Paragraph#PARAGRAPH_HEAD
+	 * @see 		GameBook#getParagraphIdByObject(Paragraph)
 	 * @author      Jérémi Nihart
 	 */
 	public String getParagraphHead(Paragraph paragraph) {
@@ -160,17 +173,53 @@ public class GameBook {
 		return getParagraphByID(0);
 	}
 	
-	// docs
+	/** 
+	 * Getter, permettant de récupérer le dernier paragraphe.<br>
+	 * <u>CTT : O(1)</u>
+	 *
+	 * @return      Objet {@link Paragraph} numéro [nombre de paragraphe-1].
+	 *
+	 * @since       1.1
+	 *
+	 * @see			GameBook#getParagraphByID(int)
+	 * @author      Jérémi Nihart
+	 */
 	public Paragraph getLastParagraph() {
 		return getParagraphByID(paragraphs.size()-1);
 	}
 	
-	// docs
+	/** 
+	 * Getter, permettant de récupérer le premier paragraphe.<br>
+	 * <u>Meilleur CTT : O(1)</u> dans le cas ou le nombre de paragraphe est plus
+	 * petit ou égale à un.<br>
+	 * <u>Pire CTT : O(n)</u> dans le cas où le nombre de paragraphe est plus grand
+	 * que 1, 'n' équivaut à sa position dans la liste, plus généralement O(n/2).
+	 *
+	 * @return      Objet {@link Paragraph} dont l'on souhaite récupérer l'ID.
+	 *
+	 * @since       1.1
+	 *
+	 * @see			Paragraph
+	 * @author      Jérémi Nihart
+	 */
 	public int getParagraphIdByObject(Paragraph paragraph) {
 		return paragraphs.indexOf(paragraph);
 	}
 	
-	// docs
+	/** 
+	 * Getter, permettant de récupérer l'id d'un paragraphe étant dans les
+	 * choix de 'paragraph' et aillant une clé 'key'.
+	 *
+	 * @return      L'ID du paragraphe correspondant.
+	 * @param 		key Clé d'un choix.
+	 * @param 		paragraph Objet {@link Paragraph} dont il faut parcourir les choix.
+	 *
+	 * @since       1.1
+	 *
+	 * @see			GameBook#getParagraphIdByObject(Paragraph)
+	 * @see			Paragraph#getParagraphByChoiceKey(String)
+	 * @author      Jérémi Nihart
+	 */
 	public int getParagraphIdByChoiceKey(String key, Paragraph paragraph) {
 		return getParagraphIdByObject(paragraph.getParagraphByChoiceKey(key));
 	}
@@ -237,11 +286,7 @@ public class GameBook {
 			Paragraph toRemove = paragraphs.get(id);
 			paragraphs.remove(id);
 			for (Paragraph p : paragraphs) {
-				for (String s : p.getChoices()) {
-					if (toRemove.equals(p.getParagraphByChoiceKey(s))) {
-						p.deleteChoice(s);
-					}
-				}
+				p.deleteChoiceByParagraph(toRemove);
 			}
 			return true;
 		}
