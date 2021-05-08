@@ -5,12 +5,11 @@
  *
  * Version      : 1.1
  * Since        : 1.0
- * Date         : 04/05/2021
+ * Date         : 08/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
- * Link 		: https://server.endmove.eu/~endmove/AIit2/
+ * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit2
  */
-
 package gamebook.domains;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.List;
  * Permet d'attribuer un titre au livre ainsi que des paragraphes.
  * 
  * <hr>
- * <b>Non modifié mais enrichit.</b>
+ * <b>(Mis à jour depuis v1.0)</b>
  * 
  * <h2>L'interface utilisée : List</h2>
  * <p>J'utilise une List comme interface car elle permet de construire une simple
@@ -52,9 +51,10 @@ import java.util.List;
  * 
  * <u>Légende :</u>
  * <p>*: Dans le meilleur des cas (si un seul paragraphe est présent dans la liste) la CTT de
- * indexOf est de O(1). Dans un cas plus générale indexOf boucle ses éléments (les éléments de
- * sa liste) pour vérifier qu'ils correspondent donc la CTT est de O(n) ou 'n' est le nombre
- * de paragraphe (voir méthode).</p>
+ * indexOf est de <b>O(1)</b>. Dans un cas plus générale indexOf boucle ses éléments (les éléments de
+ * sa liste) pour vérifier qu'ils correspondent, donc la CTT est de <b>O(n)</b> ou 'n' est le nombre
+ * de paragraphe (plus d'informations dans la méthode l'utilisant:
+ * {@link GameBook#getParagraphIdByObject(Paragraph)}).</p>
  * <p>**: En faisant des recherche sur le fonctionnement de cette fonction
  * j'ai pu découvrir qu'en Java 11 <code>addAll()</code> a été réécrite, celle-ci fonctionne
  * comme suit:<br>De base l'implémentation de collection utilisé est convertie
@@ -67,8 +67,8 @@ import java.util.List;
  * <b>O(n)</b> (pour faire une boucle permettant de copier les éléments) la CTT
  * final reste donc inchangé.<br>
  * Dans le cas où l'on ne prend pas en compte l'agrandissement de la List, CTT: <b>O(n)</b>.</p>
- * <p>***: Dans la pire des cas la CTT de remove est de O(n) ou 'n' est le nombre d'élément
- * à décaler précédent celui à supprimer. Tandit que dans le meilleur des cas la CTT est de O(1),
+ * <p>***: Dans la pire des cas la CTT de remove est de <b>O(n)</b> ou 'n' est le nombre d'élément
+ * à décaler précédent celui à supprimer. Tandit que dans le meilleur des cas la CTT est de <b>O(1)</b>,
  * si l'élement à supprimer est le dernier de la liste.</p>
  * <hr>
  *
@@ -121,7 +121,9 @@ public class GameBook {
 	 * <u>CTT : O(n)</u> (voir {@link GameBook#getParagraphIdByObject(Paragraph)}).
 	 *
 	 * @return      En-tête d'un paragraphe {@link Paragraph}.
-	 *              Exemple: <i>Paragraphe 17</i>
+	 *                      Exemple: <i>Paragraphe 17</i>
+	 * @param 		paragraph Objet {@link Paragraph} pour lequel on a besoin de
+	 *                        récupérer le head (titre).
 	 *
 	 * @since       1.1
 	 *
@@ -133,7 +135,18 @@ public class GameBook {
 		return String.format("%s %s", Paragraph.PARAGRAPH_HEAD, getParagraphIdByObject(paragraph)+1);
 	}
 	
-	// docs
+	/**
+	 * Getter, permettant de récupérer une liste du contenu de tous les paragraphes.<br>
+	 * <u>CTT : O(n)</u> ou 'n' est le nombre de paragraphe(s) du livre.
+	 *
+	 * @return      Une liste du contenu de chaque objet {@link Paragraph} du
+	 *                  livre {@link GameBook}.
+	 *
+	 * @since       1.1
+	 *
+	 * @see 		Paragraph#getContent()
+	 * @author      Jérémi Nihart
+	 */
 	public List<String> getParagraphsContents() {
 		List<String> heads = new ArrayList<>();
 		for (Paragraph paragraph : paragraphs) {
@@ -159,21 +172,6 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Getter, permettant de récupérer le premier paragraphe.<br>
-	 * <u>CTT : O(1)</u>
-	 *
-	 * @return      Objet {@link Paragraph} numéro 0 (paragraphe 1).
-	 *
-	 * @since       1.0
-	 *
-	 * @see			GameBook#getParagraphByID(int)
-	 * @author      Jérémi Nihart
-	 */
-	public Paragraph getFirstParagraph() {
-		return getParagraphByID(0);
-	}
-	
-	/** 
 	 * Getter, permettant de récupérer le dernier paragraphe.<br>
 	 * <u>CTT : O(1)</u>
 	 *
@@ -189,13 +187,14 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Getter, permettant de récupérer le premier paragraphe.<br>
+	 * Getter, permettant de récupérer l'ID d'un paragraphe par son objet.<br>
 	 * <u>Meilleur CTT : O(1)</u> dans le cas ou le nombre de paragraphe est plus
-	 * petit ou égale à un.<br>
+	 *    petit ou égale à un.<br>
 	 * <u>Pire CTT : O(n)</u> dans le cas où le nombre de paragraphe est plus grand
-	 * que 1, 'n' équivaut à sa position dans la liste, plus généralement O(n/2).
+	 *    que 1, 'n' équivaut à sa position dans la liste, plus généralement O(n/2).
 	 *
-	 * @return      Objet {@link Paragraph} dont l'on souhaite récupérer l'ID.
+	 * @return      ID du paragraphe (équivaut à l'index).
+	 * @param		paragraph Objet {@link Paragraph} dont l'on souhaite récupérer l'ID.
 	 *
 	 * @since       1.1
 	 *
@@ -207,33 +206,10 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Getter, permettant de récupérer l'id d'un paragraphe étant dans les
-	 * choix de 'paragraph' et aillant une clé 'key'.
-	 *
-	 * @return      L'ID du paragraphe correspondant.
-	 * @param 		key Clé d'un choix.
-	 * @param 		paragraph Objet {@link Paragraph} dont il faut parcourir les choix.
-	 *
-	 * @since       1.1
-	 *
-	 * @see			GameBook#getParagraphIdByObject(Paragraph)
-	 * @see			Paragraph#getParagraphByChoiceKey(String)
-	 * @author      Jérémi Nihart
-	 */
-	public int getParagraphIdByChoiceKey(String key, Paragraph paragraph) {
-		return getParagraphIdByObject(paragraph.getParagraphByChoiceKey(key));
-	}
-	
-	// docs
-	public boolean setParagraphContent(Paragraph paragraph, String content) {
-		return paragraph.setContent(content);
-	}
-	
-	/** 
 	 * Setter, permettant de définir le titre du livre.
 	 *
 	 * @return 		True si la valeur du paramètre 'title' est valide et que le titre courant a été
-	 *              mis à jour avec et False dans le cas où la valeur de titre est invalide.
+	 *              	 mis à jour avec et False dans le cas où la valeur de titre est invalide.
 	 * @param		title Titre souhaité. <b>Attention le titre ne doit être ni null ni blanc.</b>
 	 *
 	 * @since       1.0
@@ -280,7 +256,73 @@ public class GameBook {
 		this.paragraphs.addAll(paragraphs);
 	}
 	
-	// docs
+	/** 
+	 * Permet de supprimer un {@link Paragraph} par son ID, de la liste de
+	 * paragraphes du {@link GameBook} tout en supprimant tous les choix
+	 * des paragraphes le référençant.
+	 * 
+	 * <hr>
+	 * 
+	 * <h2>Précondition de la méthode :</h2>
+	 * <p>
+	 *    Le nombre de {@link Paragraph} présent dans la liste de paragraphe du
+	 *    livre ({@link GameBook}) doit être plus grand que 1.
+	 * </p>
+	 * 
+	 * <h2>Postconditions (ensures) de la méthode :</h2>
+	 * <p><u>En cas de respect de la précondition :</u> L'Objet {@link Paragraph} dont
+	 *    l'ID correspond au paramètre 'id' aura été supprimé du livre ({@link GameBook})
+	 *    et tous les choix des paragraphes du livre ({@link GameBook}) le référençant
+	 *    auront été supprimés. La méthode retourn 'true'.
+	 * </p>
+	 * <p>
+	 *  <u>En cas de non respect de la précondition :</u> Aucune action n'est effectué et la
+	 *     méthode retourne 'false'.
+	 * </p>
+	 * 
+	 * <h2>Etapes de l'algorithme de la méthode :</h2>
+	 * <p>
+	 *    Bréve explication du fonctionnement de la méthode et de ses étapes, noté que dans le cas
+	 *    ou la précondition n'est pas validé l'algorithme s'arrête à l'étape 1 et retourne 'false'.
+	 * </p>
+	 * <ol>
+	 *  <li>Vérification de la précondition ;</li>
+	 *  <li>Création d'une variable 'toRemove' pointant sur le {@link Paragraph} à supprimer qui à
+	 *      été récupéré dans la liste de paragraphe du {@link GameBook} par son ID ;</li>
+	 *  <li>Suppression du {@link Paragraph} de la liste des paragraphe du {@link GameBook} sur
+	 *      base de son ID ;</li>
+	 *  <li>Bouclage des éléments de la liste de {@link Paragraph} du {@link GameBook} en appellant
+	 *      leur méthode {@link Paragraph#deleteChoiceByParagraph(Paragraph)} ou le paramètre
+	 *      'paragraph' est le paragraphe à supprimer 'toRemove'. (cette méthode supprime les choix
+	 *      référençant un paragraphe donné) ;</li>
+	 *  <li>Retourne 'true' et met fin à cette algorithme.</li>
+	 * </ol>
+	 * 
+	 * <h2>Évaluation de la CTT de la méthode :</h2>
+	 * <ul>
+	 *  <li><u>CTT</u> dans le meilleur des cas : <b>O(1)</b></li>
+	 *  <li><u>CTT</u> dans le pire des cas (cas courant): <b>O(n^2)</b></li>
+	 * </ul>
+	 * <p>
+	 * 	<b>Explications :</b><br>
+	 *  <u>Meilleur des cas :</u> La précondition n'est pas validée, fin de l'algorithme donc <b>O(1)</b>.<br>
+	 *  <u>Pire des cas (et cas courant) :</u> Deux boucles imbriquées ce succèdent la première boucle les
+	 *     éléments de la <b>List</b> de {@link Paragraph} du {@link GameBook} la deuxième provient de l'appel de la méthode
+	 *     {@link Paragraph#deleteChoiceByParagraph} qui boucle les clés de sa <b>Map</b> de choix pour supprimer
+	 *     ceux référançants le paragraphe à supprimer. Ces deux boucles succèssives nous donnent donc une
+	 *     complexité de <b>O(x*c)</b> ou 'x' est le nombre de paragraphe dans le livre et 'c' le nombre de choix
+	 *     du paragrahe x. Nous pouvons donc généraliser cette expression en écrivant <b>O(n^2)</b>.
+	 * </p>
+	 * <hr>
+	 * 
+	 * @return      True : Suppression du paragraphe effectuée.<br>
+	 *                     False : Suppression du paragraphe refusée.
+	 * @param		id (IN) L'id du paragraphe ({@link Paragraph}) à supprimer. 
+	 *
+	 * @since       1.1
+	 *
+	 * @author      Jérémi Nihart
+	 */
 	public boolean deleteParagraph(int id) {
 		if (paragraphs.size() > 1) {
 			Paragraph toRemove = paragraphs.get(id);
@@ -293,11 +335,5 @@ public class GameBook {
 		return false;
 	}
 	
-	/**
-	 * Redéfinition de la méthode toString()
-	 */
-	@Override
-	public String toString() {
-		return String.format("Book(title=%s, paragraphs_count=%d)", title, paragraphs.size());
-	}
+//	private void enableParagraphDeletition
 }

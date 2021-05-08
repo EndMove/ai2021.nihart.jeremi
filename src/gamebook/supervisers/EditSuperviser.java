@@ -26,7 +26,7 @@ public final class EditSuperviser {
 	public EditSuperviser(GameBook book, BookEditedEventHandler rsHandler) {
 		this.book = (book != null) ? book : new GameBook(null, null);
 		this.rsHandler = rsHandler;
-		this.currentParagraph = book.getFirstParagraph();
+		this.currentParagraph = book.getParagraphByID(0);
 	}
 	
 	/**
@@ -41,14 +41,30 @@ public final class EditSuperviser {
 		refreshSelectedChoice();
 	}
 	
-	// docs
+	/**
+	 * Permet de rafréchir le contenu des paragraphes présent dans les combo-box,
+	 * le contenu du paragraphe courant, ainsi que sélectionner le pargraphe affiché.
+	 * 
+	 * @see 			Paragraph#getContent()
+	 * @see 			GameBook#getParagraphsContents()
+	 * @see 			GameBook#getParagraphIdByObject(Paragraph)
+	 * @author			Jérémi Nihart
+	 */
 	private void refreshParagraphAll() {
 		this.view.setParagraphs(book.getParagraphsContents());
 		this.view.setCurrentParagraphContent(currentParagraph.getContent());
 		this.view.setSelectedParagraph(book.getParagraphIdByObject(currentParagraph));
 	}
 	
-	// docs
+	/**
+	 * Permet de rafréchir les choix présent dans le combo-box pour le paragraphe courant,
+	 * le choix sélectioné et le paragraphe afilié.
+	 * 
+	 * @see				Paragraph#getChoices()
+	 * @see				Paragraph#getParagraphByChoiceKey(String)
+	 * @see 			GameBook#getParagraphIdByObject(Paragraph)
+	 * @author			Jérémi Nihart
+	 */
 	private void refreshSelectedChoice(String key) {
 		List<String> choices = new ArrayList<>(currentParagraph.getChoices()); // TODO
 		String choiceKey;  // La clé du choix qu'il faudrait afficher.
@@ -58,13 +74,18 @@ public final class EditSuperviser {
 			paragraphID = -1;
 		} else {
 			choiceKey = (key == null) ? choices.get(0) : key;
-			paragraphID = book.getParagraphIdByChoiceKey(choiceKey, currentParagraph);
+			paragraphID = book.getParagraphIdByObject(currentParagraph.getParagraphByChoiceKey(choiceKey));
 		}
 		this.view.setSelectedChoice(choiceKey, paragraphID);
 	}
 	
-	// docs
-	public void refreshSelectedChoice() {
+	/**
+	 * Surcharge de la méthode privée {@link EditSuperviser#refreshSelectedChoice(String)}.
+	 * 
+	 * @see				EditSuperviser#refreshSelectedChoice(String)
+	 * @author			Jérémi Nihart
+	 */
+	private void refreshSelectedChoice() {
 		refreshSelectedChoice(null);
 	}
 
@@ -132,7 +153,7 @@ public final class EditSuperviser {
 	 */
 	public void onParagraphContentChanged(int index, String newContent) {  // OK
 		// Action(s) de la méthode
-		if (book.setParagraphContent(book.getParagraphByID(index), newContent)) {
+		if (Paragraph.setContent(book.getParagraphByID(index), newContent)) {
 			rsHandler.onBookEdited();
 		}
 		
@@ -184,8 +205,8 @@ public final class EditSuperviser {
 			rsHandler.onBookEdited();
 
 		// Actualisation vues
-			refreshSelectedChoice(newKey);
 			this.view.setChoices(currentParagraph.getChoices());
+			refreshSelectedChoice(newKey);
 		} else {
 			refreshSelectedChoice(oldKey);
 		}

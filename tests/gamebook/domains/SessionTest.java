@@ -3,7 +3,6 @@ package gamebook.domains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,12 +31,12 @@ class SessionTest {
 
 	@Test
 	public void getCurrentParagraph() {
-		assertEquals(sess.getCurrentParagraph(), book.getFirstParagraph());
+		assertEquals(sess.getCurrentParagraph(), book.getParagraphByID(0));
 	}
 
 	@Test
 	public void getCurrentHead() {
-		Paragraph p = book.getFirstParagraph();
+		Paragraph p = book.getParagraphByID(0);
 		assertEquals(sess.getCurrentHead(), book.getParagraphHead(p));
 	}
 
@@ -55,7 +54,7 @@ class SessionTest {
 
 	@Test
 	public void getCurrentChoices() {
-		Paragraph p = book.getFirstParagraph();
+		Paragraph p = book.getParagraphByID(0);
 		assertEquals(sess.getCurrentChoices(), p.getChoices());
 	}
 
@@ -64,7 +63,7 @@ class SessionTest {
 		Paragraph p = book.getParagraphByID(3);
 		sess.goTo(p);
 		sess.goBack();
-		assertEquals(sess.getCurrentParagraph(), book.getFirstParagraph());
+		assertEquals(sess.getCurrentParagraph(), book.getParagraphByID(0));
 	}
 
 	@Test
@@ -87,7 +86,7 @@ class SessionTest {
 		sess.goTo(p1);
 		sess.goTo(p2);
 		sess.reset();
-		assertEquals(sess.getCurrentParagraph(), book.getFirstParagraph());
+		assertEquals(sess.getCurrentParagraph(), book.getParagraphByID(0));
 	}
 
 }

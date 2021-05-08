@@ -9,7 +9,7 @@
  * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
- * Link 		: https://server.endmove.eu/~endmove/AIit2/
+ * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit2
  */
 package gamebook.domains;
 
@@ -243,13 +243,12 @@ public class Session {
 	 *
 	 * @since       1.0
 	 *
-	 * @see			GameBook#getFirstParagraph()
 	 * @see			Session#goTo(Paragraph)
 	 * @author      Jérémi Nihart
 	 */
 	public void reset() {
 		history.clear();
-		goTo(book.getFirstParagraph());
+		goTo(book.getParagraphByID(0));
 	}
 	
 	/** 

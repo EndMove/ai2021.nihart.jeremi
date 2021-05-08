@@ -8,7 +8,7 @@
  * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
- * Link 		: https://server.endmove.eu/~endmove/AIit2/
+ * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit2
  */
 package gamebook.domains;
 
@@ -31,7 +31,7 @@ import java.util.Map;
  * 
  * <h2>L'implémentation utilisée : HashMap</h2>
  * <p>J'ai implémenté une HashMap car chaque clé doit est unique, et qu'il m'ait inutile de
- * trier les éléments qu'elle contient.</p>
+ * trier les éléments qu'elle contient. De plus ses principales opérations ont une CTT de <b>O(1)</b></p>
  * 
  * Pincipales opérations :
  * <ul>
@@ -122,12 +122,12 @@ public class Paragraph {
 	 * 
 	 * <hr>
 	 * 
-	 * <u>Postconditions:</u> Le paramètre 'content' doit être une valeur non null et non vide.<br>
+	 * <u>Préconditions:</u> Le paramètre 'content' doit être une valeur non null et non vide.<br>
 	 * <ul>
 	 *  <li>Dans le cas contaire et que le contenu du paragraphe n'a pas été initialisé à la création de
 	 *      l'objet celui-ci est défini à {@link Paragraph#PARAGRAPH_CONTENT}.</li>
-	 *  <li>Si il à déjà été initialisé et que les postconditions ne sont pas respéctées, il reste inchangé.</li>
-	 *  <li>Si les postconditions sont respéctées, il est mis à jour avec la nouvelle valeur.</li>
+	 *  <li>Si il à déjà été initialisé et que les préconditions ne sont pas respéctées, il reste inchangé.</li>
+	 *  <li>Si les préconditions sont respéctées, il est mis à jour avec la nouvelle valeur.</li>
 	 * </ul>
 	 * <hr>
 	 *
@@ -152,6 +152,23 @@ public class Paragraph {
 		}
 	}
 	
+	/** 
+	 * Setter, permettant de défini le contenu d'un paragraphe.
+	 *
+	 * @return      Un boolean indiquant si oui ou non la redéfinition de contenu
+	 * 				   à fonctionner.
+	 * @param 		paragraph Objet {@link Paragraph} dont il faut définir le contenu. 
+	 * @param 		content Contenu du paragraphe doit être non null et non vide.
+	 *
+	 * @since       1.1
+	 *
+	 * @see			Paragraph#setContent(String)
+	 * @author      Jérémi Nihart
+	 */
+	public static boolean setContent(Paragraph paragraph, String content) {
+		return paragraph.setContent(content);
+	}
+	
 	/**
 	 * Permet d'ajouter un choix au paragraph avec une clé 'key' pointant
 	 * sur un Objet 'paragraph' {@link Paragraph}.<br>
@@ -159,7 +176,7 @@ public class Paragraph {
 	 *
 	 * @param		key Clé du choix à associer au paragraphe. Si la clé est
 	 *                  null ou vide elle sera définie sur {@link Paragraph#PARAGRAPH_CHOICE}.
-	 * @param  		paragraph Objet paragraphe {@link Paragraph} a assigné à la clé.
+	 * @param  		paragraph Objet paragraphe {@link Paragraph} à assigner à la clé.
 	 *
 	 * @since       1.0
 	 *
@@ -187,12 +204,16 @@ public class Paragraph {
 	
 	/**
 	 * Permet de supprimer un choix du paragraphe si il cible un objet
-	 * {@link Paragraph} particulié.<br>
+	 * {@link Paragraph} particulié.
+	 * 
+	 * <hr>
+	 * <u>Postcondition :</u> les choix qui pointes vers le paragraphe
+	 *    passé en paramètre ont été supprimé.<br>
 	 * <u>CTT : O(n)</u> ou 'n' est le nombre de choix du paragraphe.
 	 *
 	 * @param		paragraph Objet {@link Paragraph} pour le quel il
 	 *                        faut supprimer les choix du paragraphe
-	 *                        pointant ver lui.
+	 *                        pointant vers lui.
 	 *
 	 * @since       1.1
 	 *
@@ -215,13 +236,15 @@ public class Paragraph {
 	 * <hr>
 	 * 
 	 * <u>Postconditions:</u> La 'newKey' doit être non null, non vide
-	 * et ne dois pas exister dans la Map tandis que oldKey doit exister.
+	 *    et ne dois pas exister dans la Map tandis que oldKey doit exister.
 	 * <hr>
 	 *
+	 * @return 		True : La clé à été mise à jour<br>
+	 * 					   False : La clé n'a pas été mise à jour.
 	 * @param		oldKey Valeur actuel de la clé.
 	 * @param       newKey Nouvelle valeur de la clé.
 	 *
-	 * @since       1.0
+	 * @since       1.1
 	 *
 	 * @see 		Paragraph#addChoice(String, Paragraph)
 	 * @see 		Paragraph#getParagraphByChoiceKey(String)
@@ -247,7 +270,7 @@ public class Paragraph {
 	 * @param		key Clé du choix dont il faut mettre à jour le paragraphe.
 	 * @param  		paragraph Objet paragraphe {@link Paragraph} a assigné à la clé.
 	 *
-	 * @since       1.0
+	 * @since       1.1
 	 *
 	 * @see 		Paragraph
 	 * @author      Jérémi Nihart
@@ -269,13 +292,5 @@ public class Paragraph {
 	 */
 	public boolean hasChoice() {
 		return !choices.isEmpty();
-	}
-	
-	/**
-	 * Redéfinition de la méthode toString()
-	 */
-	@Override
-	public String toString() {
-		return String.format("Paragraph(content=%s, choices_count=%d)", content, choices.size());
 	}
 }

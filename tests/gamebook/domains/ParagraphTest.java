@@ -56,6 +56,13 @@ class ParagraphTest {
 		assertFalse(p4.setContent(" "));
 		assertFalse(p4.setContent(null));
 	}
+	
+	@Test
+	public void setContentWithSpecifiedParagraph() {
+		String newContent = "New content of this paragraph";
+		assertTrue(Paragraph.setContent(p4, newContent));
+		assertEquals(p4.getContent(), newContent);
+	}
 
 	@Test
 	public void addChoice() {
@@ -75,6 +82,13 @@ class ParagraphTest {
 	public void deleteChoice() {
 		p0.deleteChoice(GameBookFactory.KEEP_READING);
 		assertEquals(p0.getChoices().size(), 2);
+	}
+	
+	@Test
+	public void deleteChoiceByParagraph() {
+		assertEquals(p2.getChoices().size(), 3);
+		p2.deleteChoiceByParagraph(p4);
+		assertEquals(p2.getChoices().size(), 2);
 	}
 
 	@Test
@@ -99,10 +113,5 @@ class ParagraphTest {
 	public void hasChoice() {
 		assertTrue(p0.hasChoice());
 		assertFalse(p4.hasChoice());
-	}
-
-	@Test
-	public void objecttoString() {
-		assertEquals(p2.toString(), "Paragraph(content="+GameBookFactory.P3_CONTENT+", choices_count=3)");
 	}
 }
