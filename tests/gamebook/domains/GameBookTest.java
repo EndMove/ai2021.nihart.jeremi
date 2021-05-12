@@ -82,13 +82,13 @@ class GameBookTest {
 		assertEquals(book.getLastParagraph(), p);
 	}
 
-	@Test
-	public void addParagraphs() {
-		List<Paragraph> ps = List.of(new Paragraph("new 01"), new Paragraph("new 02"));
-		book.addParagraphs(ps);
-		assertEquals(book.getParagraphByID(5), ps.get(0));
-		assertEquals(book.getParagraphByID(6), ps.get(1));
-	}
+//	@Test
+//	public void addParagraphs() {
+//		List<Paragraph> ps = List.of(new Paragraph("new 01"), new Paragraph("new 02"));
+//		book.addParagraphs(ps);
+//		assertEquals(book.getParagraphByID(5), ps.get(0));
+//		assertEquals(book.getParagraphByID(6), ps.get(1));
+//	}
 
 	@Test
 	public void deleteParagraph() {

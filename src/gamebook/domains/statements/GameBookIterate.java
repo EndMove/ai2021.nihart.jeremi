@@ -2,7 +2,6 @@ package gamebook.domains.statements;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +16,8 @@ public abstract class GameBookIterate implements GameBookStatement {
 	private final Set<Paragraph> visited = new HashSet<>();
 	private final Deque<Paragraph> queue = new ArrayDeque<>();
 	
+	private Paragraph pCurrent;
+	
 	private List<Paragraph> getChoices(Paragraph paragraph) {
 		List<Paragraph> choices = new ArrayList<>();
 		for (String key : paragraph.getChoices()) {
@@ -25,14 +26,21 @@ public abstract class GameBookIterate implements GameBookStatement {
 		return choices;
 	}
 	
-	public void parseBook(GameBook book) {
+	private void ini(GameBook book) {
+		// Vider fil d'attente et ensemble.
 		visited.clear();
 		queue.clear();
-		
-		Paragraph pCurrent = book.getParagraphByID(0);
-		
+		// Récupère premier paragraphe.
+		pCurrent = book.getParagraphByID(0);
+		// Initialiser la fil d'attente & l'ensemble déjà visité.
 		visited.add(pCurrent);
 		queue.add(pCurrent);
+		// Initialise la fille.
+		iniDaughter();
+	}
+	
+	public void parseBook(GameBook book) {
+		ini(book);
 		do {
 			pCurrent = queue.removeFirst();
 			for (Paragraph p : getChoices(pCurrent)) {
@@ -46,28 +54,10 @@ public abstract class GameBookIterate implements GameBookStatement {
 		} while (!queue.isEmpty());
 	}
 	
-	public abstract void onNewNodeVisited(Paragraph previous, Paragraph element);
+	protected abstract void iniDaughter();
 	
-	public abstract void onNodeVisited(Paragraph element);
-
-	@Override
-	public void parse(GameBook book) {
-		return;
-	}
-
-	@Override
-	public String getTitle() {
-		return null;
-	}
-
-	@Override
-	public String getDecription() {
-		return null;
-	}
-
-	@Override
-	public Collection<String> getResults() {
-		return null;
-	}
+	protected abstract void onNewNodeVisited(Paragraph previous, Paragraph element);
+	
+	protected abstract void onNodeVisited(Paragraph element);
 
 }

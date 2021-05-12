@@ -12,12 +12,26 @@ import gamebook.domains.Paragraph;
 public class TargetParagraphFrequency extends GameBookIterate {
 	
 	private static final String TITLE = "Nombre d'apparition des paragraphes dans les choix";
-	private static final String DESCRIPTION = "Relève pour le livre '%s' le nombre de fois que \n chaque § figure dans une destination.";
+	private static final String DESCRIPTION = "Relève pour le livre '%s' le nombre de fois que chaque § figure dans une destination.";
 	private static final String RESULT_ANSWER = "Le §%d apparaît (%dx) : %s";
+	
+	private final Map<Paragraph, Integer> count = new HashMap<>();
+	private final List<String> result = new ArrayList<>();
 	
 	private GameBook book;
 	
-	private Map<Paragraph, Integer> count = new HashMap<>();
+	private String formatResult(Paragraph p, int index) {
+		return String.format(RESULT_ANSWER, index+1, count.get(p), p.getContent());
+	}
+	
+	@Override
+	public void iniDaughter() {
+		count.clear();
+		result.clear();
+		for (int i = 0; i < book.getSize(); i++) {
+			count.put(book.getParagraphByID(i), 0);
+		}
+	}
 	
 	@Override
 	public void onNewNodeVisited(Paragraph previous, Paragraph element) {
@@ -31,16 +45,12 @@ public class TargetParagraphFrequency extends GameBookIterate {
 
 	@Override
 	public void parse(GameBook book) {
-		this.book = (book != null) ? book : new GameBook(null, null);
+		this.book = (book == null) ? new GameBook(null, null) : book;
+		super.parseBook(this.book);
 		
-		// Nettoyage et régénération de la map
-		count.clear();
-		for (int i = 0; i < book.getSize(); i++) {
-			count.put(book.getParagraphByID(i), 0);
+		for (int index = 0; index < book.getSize(); index++) {
+			result.add(formatResult(book.getParagraphByID(index), index));
 		}
-		
-		// Parse le livre avec classe mère
-		super.parseBook(book);
 	}
 
 	@Override
@@ -55,11 +65,6 @@ public class TargetParagraphFrequency extends GameBookIterate {
 
 	@Override
 	public Collection<String> getResults() {
-		List<String> result = new ArrayList<>();
-		for (int index = 0; index < book.getSize(); index++) {
-			Paragraph p = book.getParagraphByID(index);
-			result.add(String.format(RESULT_ANSWER, index+1, count.get(p), p.getContent()));
-		}
 		return result;
 	}
 

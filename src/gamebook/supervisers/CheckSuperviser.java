@@ -37,11 +37,9 @@ public class CheckSuperviser implements BookEditedEventHandler {
 	public void onParse() {
 		// Vérifie que la vue est déjà définie
 		if (this.view == null) return;
-		
 		// Exécution des algorithmes
 		swtte.parse(book);
 		tpf.parse(book);
-		
 		// Affichage des résultats des algorithmes
 		this.view.clearResult();
 		this.view.setTitle(book.getTitle());
@@ -57,7 +55,7 @@ public class CheckSuperviser implements BookEditedEventHandler {
 		this.view.setDescription(swtte.getDecription());
 		for (String s : swtte.getResults()) {
 			this.view.addResultItem(s);
-		}		
+		}
 		this.view.endResult();
 	}
 

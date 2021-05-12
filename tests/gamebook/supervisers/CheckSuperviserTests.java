@@ -2,6 +2,8 @@ package gamebook.supervisers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +11,18 @@ import gamebook.domains.BookEditedEventHandler;
 import gamebook.domains.GameBook;
 import gamebook.domains.GameBookFactory;
 import gamebook.domains.GameBookStatement;
-import gamebook.domains.statements.*;
 import gamebook.fakes.FakeCheckView;
+import gamebook.fakes.FakeGameBookStatement;
 
 public class CheckSuperviserTests {
 	private GameBook book;
 	
-	private GameBookStatement stmt1, stmt2;
-
+	private FakeGameBookStatement stmt1, stmt2;
+	
+	private String swtteTitle, tpfTitle;
+	private String swtteDescription, tpfDescription;
+	private List<String> swtteResults, tpfResults;
+	
 	private FakeCheckView view;
 	private CheckSuperviser superviser;
 
@@ -25,10 +31,26 @@ public class CheckSuperviserTests {
 		book = GameBookFactory.makeGameBook();
 		view = new FakeCheckView();
 		
-		//TODO : adaptez le constructeur du CheckSuperviser
+		// STMT1
+		swtteTitle = "Chemin terminale le plus rapide";
+		swtteDescription = "Le livre 'Titre' traverse %2 § pour atteindre le %2.";
+		swtteResults = List.of(
+			"Le §1 : Paragraphe n1...",
+			"Le §2 : Paragraphe n2..."
+		);
+		stmt1 = new FakeGameBookStatement(swtteTitle, swtteDescription, swtteResults);
 		
-		stmt1 = new ShortestWayToTheEnd();
-		stmt2 = new TargetParagraphFrequency();
+		// STMT2
+		tpfTitle = "Nombre d'apparition des paragraphes dans les choix";
+		tpfDescription = "Relève pour le livre 'Titre' le nombre de fois que chaque § figure dans une destination.";
+		tpfResults = List.of(
+			"Le §1 apparaît (0x) : Paragraphe n1...",
+			"Le §2 apparaît (3x) : Paragraphe n2...",
+			"Le §3 apparaît (1x) : Paragraphe n3...",
+			"Le §4 apparaît (2x) : Paragraphe n4...",
+			"Le §5 apparaît (2x) : Paragraphe n5..."
+		);
+		stmt2 = new FakeGameBookStatement(tpfTitle, tpfDescription, tpfResults);
 		
 		superviser = new CheckSuperviser(book, stmt1, stmt2);
 		superviser.setView(view);
@@ -56,7 +78,9 @@ public class CheckSuperviserTests {
 	@Test
 	public void updatesStatementsOnBookEdited() {
 		view.resetCallsTrace();
-		//TODO : si objets factices heritant de Fake, appeler resetCallsTrace sur ces objets factices.
+		
+		stmt1.resetCallsTrace();
+		stmt2.resetCallsTrace();
 		
 		superviser.onBookEdited();
 		
@@ -68,7 +92,9 @@ public class CheckSuperviserTests {
 	@Test
 	public void refreshesViewOnBookEdited() {
 		view.resetCallsTrace();
-		//TODO : si objets factices heritant de Fake, appeler resetCallsTrace sur ces objets factices.
+		
+		stmt1.resetCallsTrace();
+		stmt2.resetCallsTrace();
 		
 		superviser.onBookEdited();
 		
@@ -80,7 +106,9 @@ public class CheckSuperviserTests {
 	@Test
 	public void refreshesViewWithNoResultMessageOnEmptyResult() {
 		view.resetCallsTrace();
-		//TODO : si objets factices heritant de Fake, appeler resetCallsTrace sur ces objets factices.
+		
+		stmt1.resetCallsTrace();
+		stmt2.resetCallsTrace();
 		
 		superviser.onBookEdited();
 		
@@ -90,7 +118,9 @@ public class CheckSuperviserTests {
 	@Test
 	public void updatesStatementsOnParse() {
 		view.resetCallsTrace();
-		//TODO : si objets factices heritant de Fake, appeler resetCallsTrace sur ces objets factices.
+		
+		stmt1.resetCallsTrace();
+		stmt2.resetCallsTrace();
 		
 		superviser.onParse();
 		
@@ -100,7 +130,9 @@ public class CheckSuperviserTests {
 	@Test
 	public void refreshesViewOnParse() {
 		view.resetCallsTrace();
-		//TODO : si objets factices heritant de Fake, appeler resetCallsTrace sur ces objets factices.
+		
+		stmt1.resetCallsTrace();
+		stmt2.resetCallsTrace();
 		
 		superviser.onParse();
 		
@@ -110,13 +142,14 @@ public class CheckSuperviserTests {
 	}
 	
 	private void verifyStatementRefreshed() {
-		//TODO : verifier la reception des appels adequats pour recalculer les releves sur base du gamebook
+		stmt1.verify("parse", book);
+		stmt2.verify("parse", book);
 	}
 	
 	private void verifyViewRefreshedForStatement(GameBookStatement stmt) {
-		view.verify("startResultFor");//TODO : ajouter les appels correspondant au stmt.		
-		view.verify("setDescription");//TODO : ajouter les appels correspondant au stmt.		
-		for(String result : java.util.List.<String>of()) {//TODO : ajouter les appels correspondant au stmt.		
+		view.verify("startResultFor", stmt.getTitle());		
+		view.verify("setDescription", stmt.getDecription());	
+		for(String result : stmt.getResults()) {	
 			view.verify("addResultItem", result);
 		}
 	}
