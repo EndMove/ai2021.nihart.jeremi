@@ -1,13 +1,16 @@
 package gamebook.supervisers;
 
+import static gamebook.utils.MethodCall.of;
+
 import java.util.List;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import gamebook.domains.*;
-import gamebook.fakes.*;
-
-import static gamebook.utils.MethodCall.of;
+import gamebook.domains.GameBook;
+import gamebook.domains.GameBookFactory;
+import gamebook.fakes.FakeBookEditedEventHandler;
+import gamebook.fakes.FakeEditView;
 
 public class EditSuperviserTests {
 	private EditSuperviser superviser;

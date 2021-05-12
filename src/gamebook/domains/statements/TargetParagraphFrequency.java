@@ -7,45 +7,40 @@ import java.util.List;
 import java.util.Map;
 
 import gamebook.domains.GameBook;
-import gamebook.domains.GameBookStatement;
 import gamebook.domains.Paragraph;
 
-public class TargetParagraphFrequency implements GameBookStatement {
+public class TargetParagraphFrequency extends GameBookIterate {
 	
 	private static final String TITLE = "Nombre d'apparition des paragraphes dans les choix";
 	private static final String DESCRIPTION = "Relève pour le livre '%s' le nombre de fois que \n chaque § figure dans une destination.";
+	private static final String RESULT_ANSWER = "Le §%d apparaît (%dx) : %s";
 	
 	private GameBook book;
 	
-	private Map<Paragraph, Integer> pCount;
-	private List<String> pResult;
-
-	public TargetParagraphFrequency() {}
+	private Map<Paragraph, Integer> count = new HashMap<>();
 	
-	private void addCount(Paragraph paragraph, int defaultValue) {
-		if (pCount.containsKey(paragraph)) {
-			pCount.replace(paragraph, pCount.get(paragraph)+1);
-		} else {
-			pCount.put(paragraph, defaultValue);
-		}
+	@Override
+	public void onNewNodeVisited(Paragraph previous, Paragraph element) {
+		return;
+	}
+	
+	@Override
+	public void onNodeVisited(Paragraph element) {
+		count.replace(element, count.get(element)+1);
 	}
 
 	@Override
 	public void parse(GameBook book) {
 		this.book = (book != null) ? book : new GameBook(null, null);
-		pCount = new HashMap<>();
 		
-		Paragraph pCurrent;
-		
-		for (int pIndex = 0; pIndex < book.getSize(); pIndex++) {
-			pCurrent = book.getParagraphByID(pIndex);
-			if (pIndex == 0) {
-				addCount(pCurrent, 0);
-			}
-			for (String choice : pCurrent.getChoices()) {
-				addCount(pCurrent.getParagraphByChoiceKey(choice), 1);
-			}
+		// Nettoyage et régénération de la map
+		count.clear();
+		for (int i = 0; i < book.getSize(); i++) {
+			count.put(book.getParagraphByID(i), 0);
 		}
+		
+		// Parse le livre avec classe mère
+		super.parseBook(book);
 	}
 
 	@Override
@@ -60,11 +55,12 @@ public class TargetParagraphFrequency implements GameBookStatement {
 
 	@Override
 	public Collection<String> getResults() {
-		pResult = new ArrayList<>();
-		for (int pIndex = 0; pIndex < book.getSize(); pIndex++) {
-			pResult.add("");
+		List<String> result = new ArrayList<>();
+		for (int index = 0; index < book.getSize(); index++) {
+			Paragraph p = book.getParagraphByID(index);
+			result.add(String.format(RESULT_ANSWER, index+1, count.get(p), p.getContent()));
 		}
-		return pResult;
+		return result;
 	}
 
 }

@@ -92,15 +92,20 @@ public class GameBook {
 	 * @param		paragraphs Collection contenant les paragraphes de base
 	 * 						   du livre.
 	 *
-	 * @since       1.0
+	 * @since       1.2
 	 *
 	 * @see 		Paragraph
 	 * @author      Jérémi Nihart
 	 */
 	public GameBook(String title, Collection<Paragraph> paragraphs) {
 		setTitle(title);
-		if (paragraphs == null || paragraphs.isEmpty()) {addParagraph(new Paragraph(null));}
-		else {addParagraphs(paragraphs);}
+		if (paragraphs == null || paragraphs.isEmpty()) {
+			addParagraph(new Paragraph(null));
+		} else {
+			for (Paragraph paragraph : paragraphs) {
+				addParagraph(paragraph);
+			}
+		}
 	}
 	
 	/** 
@@ -265,9 +270,9 @@ public class GameBook {
 	 *
 	 * @author      Jérémi Nihart
 	 */
-	public void addParagraphs(Collection<Paragraph> paragraphs) {
-		this.paragraphs.addAll(paragraphs);
-	}
+//	public void addParagraphs(Collection<Paragraph> paragraphs) {
+//		this.paragraphs.addAll(paragraphs);
+//	}
 	
 	/** 
 	 * Permet de supprimer un {@link Paragraph} par son ID, de la liste de

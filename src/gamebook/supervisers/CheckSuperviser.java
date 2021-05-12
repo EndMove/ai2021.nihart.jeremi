@@ -48,12 +48,16 @@ public class CheckSuperviser implements BookEditedEventHandler {
 		// -- TargetParagraphFrequency
 		this.view.startResultFor(tpf.getTitle());
 		this.view.setDescription(tpf.getDecription());
-		this.view.addResultItem("UN RESULTAT");
+		for (String s : tpf.getResults()) {
+			this.view.addResultItem(s);
+		}
 		this.view.endResult();
 		// -- ShortestWayToTheEnd
 		this.view.startResultFor(swtte.getTitle());
 		this.view.setDescription(swtte.getDecription());
-		this.view.addResultItem("UN SEUL RESULTAT");		
+		for (String s : swtte.getResults()) {
+			this.view.addResultItem(s);
+		}		
 		this.view.endResult();
 	}
 

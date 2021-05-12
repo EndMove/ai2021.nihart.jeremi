@@ -15,7 +15,8 @@ public final class EditSuperviser {
 
 	private EditView view;
 	private final GameBook book;
-	private final BookEditedEventHandler rsHandler, csHandler;
+	private final BookEditedEventHandler rsHandler;
+	private final BookEditedEventHandler csHandler;
 	private Paragraph currentParagraph;
 	
 	/**

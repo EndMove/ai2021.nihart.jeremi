@@ -26,7 +26,6 @@ public abstract class GameBookIterate implements GameBookStatement {
 	}
 	
 	public void parseBook(GameBook book) {
-		System.out.println("OKKKKK");
 		visited.clear();
 		queue.clear();
 		
@@ -42,11 +41,14 @@ public abstract class GameBookIterate implements GameBookStatement {
 					queue.add(p);
 					onNewNodeVisited(pCurrent, p);
 				}
+				onNodeVisited(p);
 			}
 		} while (!queue.isEmpty());
 	}
 	
 	public abstract void onNewNodeVisited(Paragraph previous, Paragraph element);
+	
+	public abstract void onNodeVisited(Paragraph element);
 
 	@Override
 	public void parse(GameBook book) {
