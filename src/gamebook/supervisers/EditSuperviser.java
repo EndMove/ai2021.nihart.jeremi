@@ -14,8 +14,8 @@ import gamebook.domains.Paragraph;
 public final class EditSuperviser {
 
 	private EditView view;
-	private final BookEditedEventHandler rsHandler;
 	private final GameBook book;
+	private final BookEditedEventHandler rsHandler, csHandler;
 	private Paragraph currentParagraph;
 	
 	/**
@@ -23,9 +23,10 @@ public final class EditSuperviser {
 	 * @param handler 
 	 * @param b 
 	 * */
-	public EditSuperviser(GameBook book, BookEditedEventHandler rsHandler) {
+	public EditSuperviser(GameBook book, BookEditedEventHandler rsHandler, BookEditedEventHandler csHandler) {
 		this.book = (book != null) ? book : new GameBook(null, null);
 		this.rsHandler = rsHandler;
+		this.csHandler = csHandler;
 		this.currentParagraph = book.getParagraphByID(0);
 	}
 	
@@ -110,6 +111,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		if (book.setTitle(newTitle)) {
 			rsHandler.onBookEdited();
+			csHandler.onBookEdited();
 		}
 		
 		// Actualisation vue
@@ -139,6 +141,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		if (book.deleteParagraph(index)) {
 			rsHandler.onBookEdited();
+			csHandler.onBookEdited();
 		}
 		this.currentParagraph = book.getLastParagraph();
 		
@@ -155,6 +158,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		if (Paragraph.setContent(book.getParagraphByID(index), newContent)) {
 			rsHandler.onBookEdited();
+			csHandler.onBookEdited();
 		}
 		
 		// Actualisation vue
@@ -177,6 +181,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		currentParagraph.addChoice(null, book.getParagraphByID(0));
 		rsHandler.onBookEdited();
+		csHandler.onBookEdited();
 		
 		// Actualisation vue
 		this.view.setChoices(currentParagraph.getChoices());
@@ -190,6 +195,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		currentParagraph.deleteChoice(key);
 		rsHandler.onBookEdited();
+		csHandler.onBookEdited();
 
 		// Actualisation vue
 		this.view.setChoices(currentParagraph.getChoices());
@@ -203,6 +209,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		if (currentParagraph.updateChoiceKey(oldKey, newKey)) {
 			rsHandler.onBookEdited();
+			csHandler.onBookEdited();
 
 		// Actualisation vues
 			this.view.setChoices(currentParagraph.getChoices());
@@ -219,6 +226,7 @@ public final class EditSuperviser {
 		// Action(s) de la méthode
 		currentParagraph.updateChoiceParagraph(key, book.getParagraphByID(index));
 		rsHandler.onBookEdited();
+		csHandler.onBookEdited();
 
 		// Actualisation vue
 		refreshSelectedChoice(key);

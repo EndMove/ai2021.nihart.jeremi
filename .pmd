@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd>
+    <workingSet>Java Main Sources</workingSet>
     <useProjectRuleSet>true</useProjectRuleSet>
     <ruleSetFile>D:\Jérémi Nihart\Documents\Ecole\HELMo_2020-2021\Activité Intégrative\Workspace\ai2021.nihart.jeremi\ai-ruleset.xml</ruleSetFile>
     <includeDerivedFiles>false</includeDerivedFiles>

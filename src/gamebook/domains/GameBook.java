@@ -3,9 +3,9 @@
  *
  * Description  : Classe gérant le livre.
  *
- * Version      : 1.1
+ * Version      : 1.2
  * Since        : 1.0
- * Date         : 08/05/2021
+ * Date         : 11/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
  * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit2
@@ -72,7 +72,7 @@ import java.util.List;
  * si l'élement à supprimer est le dernier de la liste.</p>
  * <hr>
  *
- * @version     1.1
+ * @version     1.2
  *
  * @see         Paragraph
  * @author      Jérémi Nihart
@@ -104,7 +104,7 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Getter, permet de récupérer le titre du livre.
+	 * Getter, permettan de récupérer le titre du livre.
 	 *
 	 * @return      Titre du livre.
 	 *
@@ -114,6 +114,19 @@ public class GameBook {
 	 */
 	public String getTitle() {
 		return title;
+	}
+	
+	/** 
+	 * Getter, permettan de récupérer la taille du livre.
+	 *
+	 * @return      Taille du livre.
+	 *
+	 * @since       1.2
+	 *
+	 * @author      Jérémi Nihart
+	 */
+	public int getSize() {
+		return paragraphs.size();
 	}
 	
 	/**
@@ -183,7 +196,7 @@ public class GameBook {
 	 * @author      Jérémi Nihart
 	 */
 	public Paragraph getLastParagraph() {
-		return getParagraphByID(paragraphs.size()-1);
+		return getParagraphByID(getSize()-1);
 	}
 	
 	/** 
@@ -335,5 +348,4 @@ public class GameBook {
 		return false;
 	}
 	
-//	private void enableParagraphDeletition
 }

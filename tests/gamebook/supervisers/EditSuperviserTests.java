@@ -11,7 +11,7 @@ import static gamebook.utils.MethodCall.of;
 
 public class EditSuperviserTests {
 	private EditSuperviser superviser;
-	private FakeBookEditedEventHandler handler;
+	private FakeBookEditedEventHandler handler, csHandler;
 	private FakeEditView view;
 	private GameBook book;
 	
@@ -20,7 +20,8 @@ public class EditSuperviserTests {
 		book = GameBookFactory.makeGameBook();
 		view = new FakeEditView();
 		handler = new FakeBookEditedEventHandler();
-		superviser = new EditSuperviser(book, handler);
+		csHandler = new FakeBookEditedEventHandler();
+		superviser = new EditSuperviser(book, handler, csHandler);
 		superviser.setView(view);
 	}
 	

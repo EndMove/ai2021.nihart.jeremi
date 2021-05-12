@@ -110,6 +110,5 @@ public final class ReadSuperviser implements BookEditedEventHandler {
 	public void onBookEdited() {
 		sess.reset();
 		refreshView();
-		// TODO Auto-generated method stub
 	}
 }

@@ -3,6 +3,7 @@ package gamebook;
 import gamebook.domains.GameBook;
 import gamebook.domains.GameBookFactory;
 import gamebook.domains.Session;
+import gamebook.domains.statements.*;
 import gamebook.supervisers.CheckSuperviser;
 import gamebook.supervisers.EditSuperviser;
 import gamebook.supervisers.ReadSuperviser;
@@ -25,11 +26,15 @@ public class Program {
 		
 		// Créer la session
 		Session sess = new Session(book);
+		
+		// Créer les Objet d'algorithme de vérification
+		ShortestWayToTheEnd swtte = new ShortestWayToTheEnd();
+		TargetParagraphFrequency tpf = new TargetParagraphFrequency();
 
 		// Créer les superviser
 		ReadSuperviser readSuperviser = new ReadSuperviser(sess, book);
-		EditSuperviser editSuperviser = new EditSuperviser(book, readSuperviser);
-		CheckSuperviser checkSuperviser = new CheckSuperviser();
+		CheckSuperviser checkSuperviser = new CheckSuperviser(book, swtte, tpf);
+		EditSuperviser editSuperviser = new EditSuperviser(book, readSuperviser, checkSuperviser);
 		
 		// Créer l'interface
 		var mainWindow = new MainWindow(
