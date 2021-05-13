@@ -10,22 +10,22 @@ import gamebook.domains.Paragraph;
 /**
  * Traite les demandes issues d'une {@code EditView}.
  * À cette fin, elle contrôle d'autres objets parmi lesquels un livre-jeu.
- * */
+ */
 public final class EditSuperviser {
 
 	private EditView view;
+	private Paragraph currentParagraph;
 	private final GameBook book;
 	private final BookEditedEventHandler rsHandler;
 	private final BookEditedEventHandler csHandler;
-	private Paragraph currentParagraph;
 	
 	/**
 	 * Initialise un superviseur pour éditer le livre-jeu {@code gameBook}
 	 * @param handler 
 	 * @param b 
-	 * */
+	 */
 	public EditSuperviser(GameBook book, BookEditedEventHandler rsHandler, BookEditedEventHandler csHandler) {
-		this.book = (book != null) ? book : new GameBook(null, null);
+		this.book = (book == null) ? new GameBook(null, null) : book;
 		this.rsHandler = rsHandler;
 		this.csHandler = csHandler;
 		this.currentParagraph = book.getParagraphByID(0);
@@ -61,6 +61,8 @@ public final class EditSuperviser {
 	/**
 	 * Permet de rafréchir les choix présent dans le combo-box pour le paragraphe courant,
 	 * le choix sélectioné et le paragraphe afilié.
+	 * 
+	 * @param 			key Clé du choix a sélectionné par défaut si défini.
 	 * 
 	 * @see				Paragraph#getChoices()
 	 * @see				Paragraph#getParagraphByChoiceKey(String)

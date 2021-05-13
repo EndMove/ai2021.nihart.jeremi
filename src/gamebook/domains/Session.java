@@ -9,7 +9,7 @@
  * Date         : 04/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
- * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit2
+ * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit3
  */
 package gamebook.domains;
 

@@ -1,6 +1,5 @@
 package gamebook.fakes;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class FakeGameBookStatement extends Fake implements GameBookStatement {
 	public FakeGameBookStatement(String title, String description, List<String> results) {
 		this.title = title;
 		this.description = description;
-		this.results = results;
+		this.results = (results == null || results.isEmpty()) ? List.of("Aucun resultat") : results;
 	}
 
 	@Override

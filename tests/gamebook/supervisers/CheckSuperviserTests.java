@@ -34,10 +34,7 @@ public class CheckSuperviserTests {
 		// STMT1
 		swtteTitle = "Chemin terminale le plus rapide";
 		swtteDescription = "Le livre 'Titre' traverse %2 § pour atteindre le %2.";
-		swtteResults = List.of(
-			"Le §1 : Paragraphe n1...",
-			"Le §2 : Paragraphe n2..."
-		);
+		swtteResults = null;
 		stmt1 = new FakeGameBookStatement(swtteTitle, swtteDescription, swtteResults);
 		
 		// STMT2

@@ -22,8 +22,8 @@ public final class ReadSuperviser implements BookEditedEventHandler {
 	 * Construit un ReadSuperviser en attente d'une vue.
 	 */
 	public ReadSuperviser(Session sess, GameBook book) {
-		this.sess = (sess != null) ? sess : new Session(new GameBook(null, null));
-		this.book = (book != null) ? book : new GameBook(null, null);
+		this.sess = (sess == null) ? new Session(new GameBook(null, null)) : sess;
+		this.book = (book == null) ? new GameBook(null, null) : book;
 	}
 
 	/**
@@ -105,7 +105,10 @@ public final class ReadSuperviser implements BookEditedEventHandler {
 		sess.goBack();
 		refreshView();
 	}
-
+	
+	/**
+	 * Méthode d'évènement, est appelé lorsque le livre est modifié.
+	 */
 	@Override
 	public void onBookEdited() {
 		sess.reset();
