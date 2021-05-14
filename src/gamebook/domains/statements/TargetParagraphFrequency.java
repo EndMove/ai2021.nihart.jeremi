@@ -27,6 +27,19 @@ import gamebook.domains.Paragraph;
  * Cette classe permet de compter le nombre de fois qu'un paragraphe
  * revient dans les choix des noeuds, chaque noeud n'est exploré qu'une
  * fois et l'exploration commence au paragraphe numéro un.
+ * 
+ * <hr>
+ * 
+ * <p>La CTT de la création du relevé de base est de <b>O(n+m)</b> pour
+ *    le cas moyen et <b>O(1)</b> pour le meilleur. (voir
+ *    {@link GameBookStatementReader#parseBook(GameBook)}) pour plus
+ *    d'information sur les variables de complexité 'n' et 'm'.<br>
+ *    Contre cas : Dans le cas ou la CTT de <code>parseBook(GameBook)</code>
+ *    est de 1 mais que le livre contien plus de 1 paragraphe cela signifie
+ *    que la CTT applicable est de <b>O(n)</b> ou 'n' est le nombre de paragraphe
+ *    dans le livre jeu.</p>
+ * 
+ * <hr>
  *
  * @version     1.0
  * 

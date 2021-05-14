@@ -261,20 +261,6 @@ public class GameBook {
 	}
 	
 	/** 
-	 * Permet d'ajouter une Collection de paragraphes ({@link Paragraph}) au livre.<br>
-	 * <u>CTT : O(n+m)</u> voir Légende classe pour plus d'informations *.
-	 *
-	 * @param		paragraphs Collection contenant les paragraphes à ajouter.
-	 *
-	 * @since       1.0
-	 *
-	 * @author      Jérémi Nihart
-	 */
-//	public void addParagraphs(Collection<Paragraph> paragraphs) {
-//		this.paragraphs.addAll(paragraphs);
-//	}
-	
-	/** 
 	 * Permet de supprimer un {@link Paragraph} par son ID, de la liste de
 	 * paragraphes du {@link GameBook} tout en supprimant tous les choix
 	 * des paragraphes le référençant.

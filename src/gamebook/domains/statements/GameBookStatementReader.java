@@ -5,7 +5,7 @@
  *
  * Version      : 1.0
  * Since        : 1.2
- * Date         : 13/05/2021
+ * Date         : 14/05/2021
  *
  * Author       : Jérémi Nihart <j.nihart@student.helmo.be>
  * Link 		: https://server.endmove.eu/~endmove/HELMo/2020_2021/AIit3
@@ -27,6 +27,13 @@ import gamebook.domains.Paragraph;
  * GameBookStatementReader
  *
  * Classe permettant de lire le livre en partant du premier paragraphe.
+ * 
+ * <hr>
+ * 
+ * <p>Complexité des collections disponibles dans {@link ShortestWayToTheEnd}
+ *    et sa méthode de création du plus court chemin.</p>
+ * 
+ * <hr>
  *
  * @version     1.0
  * 
@@ -88,6 +95,19 @@ public abstract class GameBookStatementReader implements GameBookStatement {
 	/** 
 	 * Démarre l'exploration du livre.
 	 * 
+	 * <hr>
+	 * 
+	 * <p><u>Pire CTT : <b>O(n+m)</b></u> ou 'n' est le nombre de noeud dans la queue
+	 *    qui doivent être traité et 'm' est le nombre de de sous noeud que possède
+	 *    le noeud qui est en cours de traitement. Et dans le cas ou ces sous noeuds
+	 *    n'ont pas encore été traité il sont ajouté à 'n' (la queue).<br>
+	 *    Dans un cas de livre normal 'n' devrait être le nombre de paragraphe présent
+	 *    dans le livre jeu et 'm' le nombre totale de choix de tous les paragraphes.</p>
+	 * <p><u>Meilleur CTT : <b>O(1)</b></u> dans le cas ou il n'y a qu'un seul noeud
+	 *    ne possédent aucun sous noeud.</p>
+	 * 
+	 * <hr>
+	 * 
 	 * @param		book Objet du livre {@link GameBook}.
 	 *
 	 * @since       1.0
@@ -104,7 +124,7 @@ public abstract class GameBookStatementReader implements GameBookStatement {
 			for (Paragraph pChoice : getChoices(pCurrent)) {
 				if (!visited.contains(pChoice)) {
 					visited.add(pChoice);
-					queue.add(pChoice);
+					queue.addLast(pChoice);
 					onNewNodeVisited(pCurrent, pChoice);
 				}
 				onNodeVisited(pChoice);

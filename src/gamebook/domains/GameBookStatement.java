@@ -18,7 +18,19 @@ import java.util.Collection;
 /**
  * GameBookStatement
  *
- * Interface de méthodes permettent d'implémenter les controllers de statut du livre. 
+ * Interface de méthodes permettent d'implémenter les controllers de statut du livre.
+ * 
+ * <hr>
+ * <b>Postconditions des données pour : <i>B. Relevé du nombre de fois que chaque §
+ *    figure dans une destination</i></b>
+ * <ul>
+ *  <li>Titre : Indique ce que fait le controller.</li>
+ *  <li>Description : Mentionne le titre du livre traité.</li>
+ *  <li>Résultat(s) : Numéro du paragraphe dans le livre jeu, suivi du nombre
+ *      d'apparition, suivi du contenu du paragraphe.</li>
+ * </ul>
+ * 
+ * <hr>
  *
  * @version     1.0
  *

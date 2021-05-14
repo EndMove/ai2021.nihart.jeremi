@@ -21,7 +21,9 @@ import java.util.List;
  * Session
  *
  * Permet d'attribuer un livre à une session de lecture.
+ * 
  * <hr>
+ * 
  * <h2>L'interface utilisée : Deque</h2>
  * <p>J'utilise une Deque comme interface car elle permet de construire une liste
  * linéaire (une queue), et le parcours des paragraphes d'un livre en est très similaire.</p>
