@@ -14,7 +14,6 @@ package gamebook.domains.statements;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +28,10 @@ import gamebook.domains.Paragraph;
  * Cette classe permet de trouver le chemin passant par le moins de
  * noeud (le plus cours), démarrant du paragraphe numéro un et
  * s'arretant au premier noeud terminal trouvé.
+ * 
+ * <hr>
+ * 
+ * <p>Choix de collection du traitement disponible dans {@link ShortestWayToTheEnd#recursivityWayMaker}</p>
  * 
  * <hr>
  * 
@@ -151,7 +154,9 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	 * 
 	 * <h2>L'implémentation utilisée : ArrayDeque</h2>
 	 * <p>J'implémente une ArrayDeque, car j'ai besoin d'un tableau dynamique sous forme de liste me permettant
-	 *    d'ajouter des élément en tête de queue sans pour autant devoir décaler tout les autres éléments.</p>
+	 *    d'ajouter des élément en tête de queue sans pour autant devoir décaler tout les autres éléments. Je
+	 *    n'utilise pas de linkedlist car bénéficier d'un jeu de nodes entre les éléments de ma file d'attente
+	 *    m'est inutile.</p>
 	 * 
 	 * Pincipales opérations :
 	 * <ul>
@@ -205,7 +210,7 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	}
 	
 	@Override
-	public void iniDaughter() {
+	protected void iniDaughter() {
 		history.clear();
 		result.clear();
 		terminal = null;
@@ -215,7 +220,7 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	}
 	
 	@Override
-	public void onNewNodeVisited(Paragraph previous, Paragraph element) {
+	protected void onNewNodeVisited(Paragraph previous, Paragraph element) {
 		if (terminal == null) {
 			history.replace(element, previous);
 			if (!element.hasChoice()) {
@@ -225,7 +230,7 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	}
 	
 	@Override
-	public void onNodeVisited(Paragraph element) {
+	protected void onNodeVisited(Paragraph element) {
 		return;
 	}
 
@@ -252,7 +257,7 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	}
 
 	@Override
-	public String getDecription() {
+	public String getDescription() {
 		if (terminal == null) {
 			return String.format(DESCRIPTION, book.getTitle(), 0, 0);
 		}
@@ -260,7 +265,7 @@ public class ShortestWayToTheEnd extends GameBookStatementReader {
 	}
 
 	@Override
-	public Collection<String> getResults() {
+	public List<String> getResults() {
 		return result;
 	}
 

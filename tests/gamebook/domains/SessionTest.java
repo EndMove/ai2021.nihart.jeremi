@@ -4,18 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SessionTest {
 	
 	private final GameBook book = GameBookFactory.makeGameBook();
 	private final Session sess = new Session(book);
-	
-	@BeforeEach
-	public void ini() {
-		
-	}
 
 	@Test
 	public void constructor() {

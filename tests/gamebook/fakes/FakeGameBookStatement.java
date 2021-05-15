@@ -30,7 +30,7 @@ public class FakeGameBookStatement extends Fake implements GameBookStatement {
 	}
 
 	@Override
-	public String getDecription() {
+	public String getDescription() {
 		countCall("getDescription");
 		return description;
 	}

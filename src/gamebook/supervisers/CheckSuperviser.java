@@ -41,13 +41,13 @@ public class CheckSuperviser implements BookEditedEventHandler {
 	 * 								(exposition des méthodes de l'interface).
 	 * 
 	 * @see 			GameBookStatement#getTitle()
-	 * @see				GameBookStatement#getDecription()
+	 * @see				GameBookStatement#getDescription()
 	 * @see				GameBookStatement#getResults()
 	 * @author			Jérémi Nihart
 	 */
 	public void addViewResult(GameBookStatement GBStatement) {
 		this.view.startResultFor(GBStatement.getTitle());
-		this.view.setDescription(GBStatement.getDecription());
+		this.view.setDescription(GBStatement.getDescription());
 		for (String result : GBStatement.getResults()) {
 			this.view.addResultItem(result);
 		}

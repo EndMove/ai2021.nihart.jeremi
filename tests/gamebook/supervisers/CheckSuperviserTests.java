@@ -145,7 +145,7 @@ public class CheckSuperviserTests {
 	
 	private void verifyViewRefreshedForStatement(GameBookStatement stmt) {
 		view.verify("startResultFor", stmt.getTitle());		
-		view.verify("setDescription", stmt.getDecription());	
+		view.verify("setDescription", stmt.getDescription());	
 		for(String result : stmt.getResults()) {	
 			view.verify("addResultItem", result);
 		}

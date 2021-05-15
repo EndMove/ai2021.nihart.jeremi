@@ -51,6 +51,8 @@ public interface GameBookStatement {
 	
 	/** 
 	 * Récupérer le titre du controller.
+	 * 
+	 * @return 		Le titre du controller.
 	 *
 	 * @since       1.0
 	 *
@@ -60,12 +62,14 @@ public interface GameBookStatement {
 	
 	/** 
 	 * Récupérer la description du controller.
+	 * 
+	 * @return 		La description du controller.
 	 *
 	 * @since       1.0
 	 *
 	 * @author      Jérémi Nihart
 	 */
-	public String getDecription();
+	public String getDescription();
 	
 	/** 
 	 * Récupèrer les résultats du controller.

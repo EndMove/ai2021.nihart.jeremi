@@ -70,7 +70,7 @@ public class GameBookFactory {
 	 * @see			Paragraph#addChoice(String, Paragraph)
 	 * @author      Jérémi Nihart
 	 */
-	private static final void setChoices(Paragraph target, String title, Paragraph...paragraphs) {
+	public static final void setChoices(Paragraph target, String title, Paragraph...paragraphs) {
 		for(Paragraph p : paragraphs) {
 			p.addChoice(title, target);
 		}

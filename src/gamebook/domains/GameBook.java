@@ -277,7 +277,9 @@ public class GameBook {
 	 * <p><u>En cas de respect de la précondition :</u> L'Objet {@link Paragraph} dont
 	 *    l'ID correspond au paramètre 'id' aura été supprimé du livre ({@link GameBook})
 	 *    et tous les choix des paragraphes du livre ({@link GameBook}) le référençant
-	 *    auront été supprimés. La méthode retourn 'true'.
+	 *    auront été supprimés. De plus les id des paragraphes sucédent celui suprimé
+	 *    sont mis à jour automatiquement par la list de manière à combler le vide
+	 *    laissé. La méthode retourn 'true'.
 	 * </p>
 	 * <p>
 	 *  <u>En cas de non respect de la précondition :</u> Aucune action n'est effectué et la
@@ -315,7 +317,7 @@ public class GameBook {
 	 *     {@link Paragraph#deleteChoiceByParagraph} qui boucle les clés de sa <b>Map</b> de choix pour supprimer
 	 *     ceux référançants le paragraphe à supprimer. Ces deux boucles succèssives nous donnent donc une
 	 *     complexité de <b>O(x*c)</b> ou 'x' est le nombre de paragraphe dans le livre et 'c' le nombre de choix
-	 *     du paragrahe x. Nous pouvons donc généraliser cette expression en écrivant <b>O(n^2)</b>.
+	 *     du paragrahe x.
 	 * </p>
 	 * <hr>
 	 * 

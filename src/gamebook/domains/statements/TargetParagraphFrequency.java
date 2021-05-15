@@ -13,7 +13,6 @@
 package gamebook.domains.statements;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +76,7 @@ public class TargetParagraphFrequency extends GameBookStatementReader {
 	}
 	
 	@Override
-	public void iniDaughter() {
+	protected void iniDaughter() {
 		count.clear();
 		result.clear();
 		for (int i = 0; i < book.getSize(); i++) {
@@ -86,12 +85,12 @@ public class TargetParagraphFrequency extends GameBookStatementReader {
 	}
 	
 	@Override
-	public void onNewNodeVisited(Paragraph previous, Paragraph element) {
+	protected void onNewNodeVisited(Paragraph previous, Paragraph element) {
 		return;
 	}
 	
 	@Override
-	public void onNodeVisited(Paragraph element) {
+	protected void onNodeVisited(Paragraph element) {
 		count.replace(element, count.get(element)+1);
 	}
 
@@ -100,8 +99,8 @@ public class TargetParagraphFrequency extends GameBookStatementReader {
 		this.book = (book == null) ? new GameBook(null, null) : book;
 		super.parseBook(this.book);
 		
-		for (int index = 0; index < book.getSize(); index++) {
-			result.add(formatResult(book.getParagraphByID(index), index));
+		for (int index = 0; index < this.book.getSize(); index++) {
+			result.add(formatResult(this.book.getParagraphByID(index), index));
 		}
 	}
 
@@ -111,12 +110,12 @@ public class TargetParagraphFrequency extends GameBookStatementReader {
 	}
 
 	@Override
-	public String getDecription() {
+	public String getDescription() {
 		return String.format(DESCRIPTION, book.getTitle());
 	}
 
 	@Override
-	public Collection<String> getResults() {
+	public List<String> getResults() {
 		return result;
 	}
 
