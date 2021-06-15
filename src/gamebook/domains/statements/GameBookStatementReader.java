@@ -97,12 +97,9 @@ public abstract class GameBookStatementReader implements GameBookStatement {
 	 * 
 	 * <hr>
 	 * 
-	 * <p><u>Pire CTT : <b>O(n+m)</b></u> ou 'n' est le nombre de noeud dans la queue
-	 *    qui doivent être traité et 'm' est le nombre de de sous noeud que possède
-	 *    le noeud qui est en cours de traitement. Et dans le cas ou ces sous noeuds
-	 *    n'ont pas encore été traité il sont ajouté à 'n' (la queue).<br>
-	 *    Dans un cas de livre normal 'n' devrait être le nombre de paragraphe présent
-	 *    dans le livre jeu et 'm' le nombre totale de choix de tous les paragraphes.</p>
+	 * <p><u>Pire CTT : <b>O(n*m)</b></u> ou 'n' est le nombre de paragraphe qui est
+	 *    connecté directement ou via d’autre paragraphe au paragraphe 1. Et ou 'm' est
+	 *    le nombre de choix du paragraphe courant.</p>
 	 * <p><u>Meilleur CTT : <b>O(1)</b></u> dans le cas ou il n'y a qu'un seul noeud
 	 *    ne possédent aucun sous noeud.</p>
 	 * 
